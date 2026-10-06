@@ -1,16 +1,45 @@
 const contactForm = document.querySelector("[data-contact-form]");
 
 if (contactForm) {
-  contactForm.addEventListener("submit", (event) => {
+  const submitButton = contactForm.querySelector("button[type='submit']");
+
+  contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const formData = new FormData(contactForm);
-    const subject = encodeURIComponent(formData.get("subject"));
-    const body = encodeURIComponent(
-      `Name: ${formData.get("name")}\nEmail: ${formData.get("email")}\n\n${formData.get("message")}`
-    );
+    const originalText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
 
-    window.location.href = `mailto:finance@blecasmartlabs.com?subject=${subject}&body=${body}`;
+    try {
+      const response = await fetch(contactForm.action, {
+        method: "POST",
+        body: new FormData(contactForm),
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        contactForm.reset();
+        submitButton.textContent = "Message sent!";
+        setTimeout(() => {
+          submitButton.textContent = originalText;
+          submitButton.disabled = false;
+        }, 3000);
+      } else {
+        submitButton.textContent = "Failed to send";
+        setTimeout(() => {
+          submitButton.textContent = originalText;
+          submitButton.disabled = false;
+        }, 3000);
+      }
+    } catch (error) {
+      submitButton.textContent = "Network error";
+      setTimeout(() => {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }, 3000);
+    }
   });
 }
 

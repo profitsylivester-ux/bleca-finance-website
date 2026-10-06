@@ -383,6 +383,13 @@ main {
   object-fit: contain;
 }
 
+.team-avatar--headshot img {
+  object-fit: cover;
+  object-position: center top;
+  transform: scale(2);
+  transform-origin: center top;
+}
+
 .team-card h3 {
   font-size: 17px;
   color: #0F2A44;
