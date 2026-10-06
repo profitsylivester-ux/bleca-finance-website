@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F2A44">
+  <title>Documents | BLECA Finance Portal</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/portal.css">
+</head>
+<body class="portal-dashboard">
+
+  <header class="portal-header">
+    <div class="portal-header-left">
+      <img src="../images/logo.png" alt="BLECA SmartLabs" class="portal-header-logo">
+      <span class="portal-header-title">BLECA Finance Portal</span>
+    </div>
+
+    <div class="portal-header-right">
+      <span id="userGreeting" class="portal-user-greeting"></span>
+      <button type="button" id="logoutBtn" class="portal-logout">Logout</button>
+    </div>
+  </header>
+
+  <nav class="portal-nav">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="documents.html" class="active">Documents</a>
+  </nav>
+
+  <main class="portal-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="portal-page-title">Documents</h1>
+        <p class="portal-page-subtitle">Receipts, invoices, contracts, and financial records.</p>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" id="openGenerateDoc" class="btn-new btn-generate">
+          📄 Generate Document
+        </button>
+
+        <button type="button" id="openUploadDoc" class="btn-new">
+          + Upload Document
+        </button>
+      </div>
+    </div>
+
+    <section class="portal-section">
+      <div id="documentsList" class="portal-list">
+        <p class="portal-empty">Loading...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- UPLOAD MODAL -->
+  <div id="uploadModal" class="modal-overlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Upload Document</h2>
+        <button type="button" class="modal-close" id="closeUploadModal" aria-label="Close">✕</button>
+      </div>
+
+      <form id="uploadForm" class="modal-body">
+        <div class="form-group">
+          <label for="docType">Document Type</label>
+          <select id="docType" required>
+            <option value="Receipt">Receipt</option>
+            <option value="Invoice">Invoice</option>
+            <option value="Contract">Contract</option>
+            <option value="Bank Statement">Bank Statement</option>
+            <option value="Payment Voucher">Payment Voucher</option>
+            <option value="Funding Document">Funding Document</option>
+            <option value="Tax Document">Tax Document</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="docDescription">Description</label>
+          <input type="text" id="docDescription" placeholder="e.g. Bootcamp venue receipt, October 2026">
+        </div>
+
+        <div class="form-group">
+          <label for="docFile">File (PDF, image — max 5 MB)</label>
+          <input type="file" id="docFile" accept=".pdf,.png,.jpg,.jpeg,.webp" required>
+        </div>
+
+        <p id="uploadError" class="portal-error" hidden></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelUploadModal">Cancel</button>
+          <button type="submit" class="btn-primary" id="submitUpload">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- GENERATE DOCUMENT MODAL -->
+  <div id="generateModal" class="modal-overlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="generateTitle">Generate Document</h2>
+        <button type="button" class="modal-close" id="closeGenerateModal" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- STEP 1: choose document type -->
+        <div id="generateTypeStep">
+          <p class="modal-hint">What kind of document do you want to create?</p>
+
+          <div class="doc-type-grid">
+            <button type="button" class="doc-type-card" data-doc-type="receipt">
+              <span class="doc-type-icon">🧾</span>
+              <span class="doc-type-name">Receipt</span>
+            </button>
+
+            <button type="button" class="doc-type-card" data-doc-type="invoice">
+              <span class="doc-type-icon">📑</span>
+              <span class="doc-type-name">Invoice</span>
+            </button>
+
+            <button type="button" class="doc-type-card" data-doc-type="certificate">
+              <span class="doc-type-icon">🎓</span>
+              <span class="doc-type-name">Certificate</span>
+            </button>
+
+            <button type="button" class="doc-type-card" data-doc-type="proposal">
+              <span class="doc-type-icon">📄</span>
+              <span class="doc-type-name">Proposal</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: forms will be inserted here by JavaScript -->
+        <div id="generateFormStep" hidden></div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script type="module" src="../js/documents.js"></script>
+  <script type="module" src="../js/generate.js"></script>
+</body>
+</html>

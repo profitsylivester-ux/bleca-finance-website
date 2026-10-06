@@ -636,3 +636,104 @@
     flex-direction: column;
   }
 }
+
+/* ===== PAGE HEADER ACTIONS ===== */
+.header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-generate {
+  background-color: #D4A853;
+  color: #0F2A44;
+}
+
+.btn-generate:hover {
+  background-color: #e4bd70;
+}
+
+@media (max-width: 640px) {
+  .header-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .header-actions .btn-new {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ===== GENERATE DOCUMENT: TYPE GRID ===== */
+.doc-type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.doc-type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 22px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background-color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+}
+
+.doc-type-card:hover {
+  border-color: #D4A853;
+  background-color: #fdfaf3;
+  transform: translateY(-2px);
+}
+
+.doc-type-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.doc-type-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0F2A44;
+}
+
+@media (max-width: 480px) {
+  .doc-type-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== INVOICE ITEM ROWS ===== */
+.invoice-item-row {
+  display: grid;
+  grid-template-columns: 1fr 70px 120px;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.invoice-item-row input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.invoice-item-row input:focus {
+  outline: none;
+  border-color: #0F2A44;
+  box-shadow: 0 0 0 3px rgba(15, 42, 68, 0.08);
+}
+
+@media (max-width: 640px) {
+  .invoice-item-row {
+    grid-template-columns: 1fr 60px 100px;
+  }
+}

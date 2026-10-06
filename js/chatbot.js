@@ -157,7 +157,7 @@ if (chatbot) {
     } catch (error) {
       typing.remove()
       addMessage(
-        'Sorry, the assistant is not available right now. Please try again or email finance@blecasmartlabs.com.',
+        'Sorry, the assistant is not available right now. Please try again or email financeblecasmartlabs@gmail.com.',
         'assistant'
       )
     }
