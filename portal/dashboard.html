@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F2A44">
+  <title>Dashboard | BLECA Finance Portal</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/portal.css">
+</head>
+<body class="portal-dashboard">
+
+  <header class="portal-header">
+    <div class="portal-header-left">
+      <img src="../images/logo.png" alt="BLECA SmartLabs" class="portal-header-logo">
+      <span class="portal-header-title">BLECA Finance Portal</span>
+    </div>
+
+    <div class="portal-header-right">
+      <span id="userGreeting" class="portal-user-greeting"></span>
+      <button type="button" id="logoutBtn" class="portal-logout">Logout</button>
+    </div>
+  </header>
+
+  <nav class="portal-nav">
+    <a href="dashboard.html" class="active">Dashboard</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="documents.html">Documents</a>
+  </nav>
+
+  <main class="portal-content">
+    <h1 class="portal-page-title">Dashboard</h1>
+    <p class="portal-page-subtitle">Overview of the department's financial position.</p>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">Cash Position</p>
+        <p class="stat-value" id="statCash">—</p>
+        <p class="stat-hint">TZS</p>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Received This Month</p>
+        <p class="stat-value" id="statReceived">—</p>
+        <p class="stat-hint">TZS</p>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Spent This Month</p>
+        <p class="stat-value" id="statSpent">—</p>
+        <p class="stat-hint">TZS</p>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Pending Approvals</p>
+        <p class="stat-value" id="statPending">—</p>
+        <p class="stat-hint">transactions waiting</p>
+      </div>
+    </section>
+
+    <section class="portal-section">
+      <div class="portal-section-header">
+        <h2>Recent Transactions</h2>
+        <a href="transactions.html" class="portal-link">View all →</a>
+      </div>
+      <div id="recentTransactions" class="portal-list">
+        <p class="portal-empty">Loading...</p>
+      </div>
+    </section>
+
+    <section class="portal-section">
+      <div class="portal-section-header">
+        <h2>Pending Approvals</h2>
+      </div>
+      <div id="pendingApprovals" class="portal-list">
+        <p class="portal-empty">Loading...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="../js/dashboard.js"></script>
+</body>
+</html>

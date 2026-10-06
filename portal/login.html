@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="theme-color" content="#0F2A44">
-	<title>Staff Portal | BLECA SmartLabs</title>
+	<title>Staff Login | BLECA Finance</title>
 	<link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="portal-page">
@@ -14,24 +14,51 @@
 				<img src="../images/logo.png" alt="BLECA SmartLabs">
 			</a>
 
-			<p class="portal-eyebrow">Finance & Accounting</p>
-			<h1 id="portal-title">Staff Portal</h1>
-			<p class="portal-description">BLECA SmartLabs staff access</p>
+			<p class="portal-eyebrow">Finance &amp; Accounting</p>
+			<h1 id="portal-title">Staff Login</h1>
+			<p class="portal-description">BLECA SmartLabs staff access only</p>
 
-			<p class="portal-notice" role="status">Staff sign-in is not available yet.</p>
-
-			<form class="portal-form">
+			<form class="portal-form" id="loginForm">
 				<label for="staff-email">Work email</label>
-				<input type="email" id="staff-email" name="email" autocomplete="username" disabled>
+				<input
+					type="email"
+					id="staff-email"
+					name="email"
+					autocomplete="username"
+					required
+				>
 
 				<label for="staff-password">Password</label>
-				<input type="password" id="staff-password" name="password" autocomplete="current-password" disabled>
+				<div class="password-field">
+					<input
+						type="password"
+						id="staff-password"
+						name="password"
+						autocomplete="current-password"
+						required
+					>
+					<button
+						type="button"
+						id="togglePassword"
+						class="password-toggle"
+						aria-label="Show password"
+					>
+						<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+							<circle cx="12" cy="12" r="3"></circle>
+						</svg>
+					</button>
+				</div>
 
-				<button type="button" disabled>Sign in</button>
+				<p class="portal-error" id="loginError" role="alert" hidden></p>
+
+				<button type="submit" id="loginButton">Sign in</button>
 			</form>
 
 			<a href="../index.html" class="portal-back">Return to the public website</a>
 		</section>
 	</main>
+
+	<script type="module" src="../js/portal.js"></script>
 </body>
 </html>
