@@ -1,6 +1,5 @@
 import { requireLogin, getUser, clearSession, fetchWithAuth, showToast } from './portal.js'
-
-const API_URL = 'http://localhost:3001'
+const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 
 const token = requireLogin()
 
