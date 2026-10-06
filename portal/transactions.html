@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F2A44">
+  <title>Transactions | BLECA Finance Portal</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/portal.css">
+</head>
+<body class="portal-dashboard">
+
+  <header class="portal-header">
+    <div class="portal-header-left">
+      <img src="../images/logo.png" alt="BLECA SmartLabs" class="portal-header-logo">
+      <span class="portal-header-title">BLECA Finance Portal</span>
+    </div>
+
+    <div class="portal-header-right">
+      <span id="userGreeting" class="portal-user-greeting"></span>
+      <button type="button" id="logoutBtn" class="portal-logout">Logout</button>
+    </div>
+  </header>
+
+  <nav class="portal-nav">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="transactions.html" class="active">Transactions</a>
+    <a href="documents.html">Documents</a>
+  </nav>
+
+  <main class="portal-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="portal-page-title">Transactions</h1>
+        <p class="portal-page-subtitle">All financial activity of the department.</p>
+      </div>
+
+      <button type="button" id="openNewTransaction" class="btn-new">
+        + New Transaction
+      </button>
+    </div>
+
+    <div class="filter-tabs">
+      <button type="button" class="filter-tab active" data-filter="all">All</button>
+      <button type="button" class="filter-tab" data-filter="pending">Pending</button>
+      <button type="button" class="filter-tab" data-filter="approved">Approved</button>
+      <button type="button" class="filter-tab" data-filter="rejected">Rejected</button>
+    </div>
+
+    <section class="portal-section">
+      <div id="transactionsList" class="portal-list">
+        <p class="portal-empty">Loading...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- NEW TRANSACTION MODAL -->
+  <div id="newTransactionModal" class="modal-overlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2>New Transaction</h2>
+        <button type="button" class="modal-close" id="closeNewModal" aria-label="Close">✕</button>
+      </div>
+
+      <form id="newTransactionForm" class="modal-body">
+        <div class="form-group">
+          <label for="txDate">Date</label>
+          <input type="date" id="txDate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="txDescription">Description</label>
+          <input type="text" id="txDescription" placeholder="e.g. Bootcamp ticket sales" required>
+        </div>
+
+        <div class="form-group">
+          <label for="txAmount">Amount (TZS)</label>
+          <input type="number" id="txAmount" min="1" step="1" required>
+        </div>
+
+        <div class="form-group">
+          <label for="txType">Type</label>
+          <select id="txType" required>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="txCategory">Category</label>
+          <select id="txCategory">
+            <option value="Training">Training</option>
+            <option value="Consulting">Consulting</option>
+            <option value="Software">Software</option>
+            <option value="Cloud">Cloud</option>
+            <option value="Transport">Transport</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Salaries">Salaries</option>
+            <option value="Hardware">Hardware</option>
+            <option value="Other" selected>Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="txProject">Project</label>
+          <input type="text" id="txProject" placeholder="e.g. Iventika, Uzanite, General" value="General">
+        </div>
+
+        <div class="form-group">
+          <label for="txPaymentMethod">Payment Method</label>
+          <select id="txPaymentMethod">
+            <option value="Cash" selected>Cash</option>
+            <option value="Bank">Bank</option>
+            <option value="Mobile Money">Mobile Money</option>
+          </select>
+        </div>
+
+        <p id="newTxError" class="portal-error" hidden></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelNewModal">Cancel</button>
+          <button type="submit" class="btn-primary" id="submitNewTx">Save Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- REJECTION MODAL -->
+  <div id="rejectModal" class="modal-overlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Reject Transaction</h2>
+        <button type="button" class="modal-close" id="closeRejectModal" aria-label="Close">✕</button>
+      </div>
+
+      <form id="rejectForm" class="modal-body">
+        <p class="modal-hint">
+          Please explain why this transaction is being rejected. This will be visible to the person who submitted it.
+        </p>
+
+        <div class="form-group">
+          <label for="rejectReason">Reason for rejection</label>
+          <textarea
+            id="rejectReason"
+            rows="4"
+            placeholder="e.g. Missing receipt, wrong category, duplicate entry"
+            required
+          ></textarea>
+        </div>
+
+        <p id="rejectError" class="portal-error" hidden></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelRejectModal">Cancel</button>
+          <button type="submit" class="btn-danger" id="submitReject">Confirm Rejection</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../js/transactions.js"></script>
+</body>
+</html>
