@@ -1,4 +1,4 @@
-import { requireLogin, getUser, clearSession, fetchWithAuth } from './portal.js'
+import { requireLogin, getUser, clearSession, fetchWithAuth, showToast } from './portal.js'
 
 const API_URL = 'http://localhost:3001'
 
@@ -22,6 +22,7 @@ if (token) {
   // ===== STATE =====
   let allTransactions = []
   let currentFilter = 'all'
+  let searchQuery = ''
   let pendingRejectId = null
 
   // ===== HELPERS =====
@@ -66,12 +67,14 @@ if (token) {
   function renderTransactions() {
     const container = document.getElementById('transactionsList')
 
-    const filtered = currentFilter === 'all'
-      ? allTransactions
-      : allTransactions.filter((tx) => tx.status === currentFilter)
+    const filtered = allTransactions.filter((tx) => {
+      const matchesStatus = currentFilter === 'all' || tx.status === currentFilter
+      const searchableText = [tx.description, tx.category, tx.project].join(' ').toLowerCase()
+      return matchesStatus && searchableText.includes(searchQuery)
+    })
 
     if (filtered.length === 0) {
-      container.innerHTML = `<p class="portal-empty">No ${currentFilter === 'all' ? '' : currentFilter + ' '}transactions.</p>`
+      container.innerHTML = `<p class="portal-empty">${searchQuery ? 'No transactions match your search.' : `No ${currentFilter === 'all' ? '' : currentFilter + ' '}transactions.`}</p>`
       return
     }
 
@@ -79,7 +82,7 @@ if (token) {
 
     filtered.forEach((tx) => {
       const row = document.createElement('div')
-      row.className = 'portal-row'
+      row.className = `portal-row portal-row--${tx.type}`
       row.style.flexDirection = 'column'
       row.style.alignItems = 'stretch'
 
@@ -148,6 +151,68 @@ if (token) {
     })
   })
 
+  document.getElementById('transactionSearch')?.addEventListener('input', (event) => {
+    searchQuery = event.target.value.trim().toLowerCase()
+    renderTransactions()
+  })
+
+  function exportCSV(transactions) {
+    const formatCsvDate = (iso) => {
+      if (!iso) return ''
+      const date = new Date(iso)
+      const day = String(date.getDate()).padStart(2, '0')
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const year = date.getFullYear()
+      return `${day}/${month}/${year}`
+    }
+
+    const csvEscape = (value) => {
+      const str = String(value ?? '')
+      if (str.includes('"') || str.includes(',') || str.includes('\n')) {
+        return `"${str.replace(/"/g, '""')}"`
+      }
+      return str
+    }
+
+    const headers = [
+      'Date', 'Description', 'Type', 'Category', 'Project', 'Amount (TZS)',
+      'Status', 'Created By', 'Approved By', 'Rejection Reason',
+    ]
+    const rows = [headers.join(',')]
+
+    transactions.forEach((tx) => {
+      const row = [
+        `="${formatCsvDate(tx.date)}"`,
+        csvEscape(tx.description),
+        csvEscape(tx.type),
+        csvEscape(tx.category),
+        csvEscape(tx.project),
+        csvEscape(tx.amount),
+        csvEscape(tx.status),
+        csvEscape(tx.createdBy?.name || ''),
+        csvEscape(tx.approvedBy?.name || ''),
+        csvEscape(tx.rejectionReason || ''),
+      ]
+      rows.push(row.join(','))
+    })
+
+    const csvContent = rows.join('\r\n')
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `BLECA-Transactions-${new Date().toISOString().slice(0, 10)}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    showToast('Transactions exported')
+  }
+
+  document.getElementById('exportTransactions')?.addEventListener('click', () => {
+    exportCSV(allTransactions)
+  })
+
   // ===== NEW TRANSACTION MODAL =====
   const newModal = document.getElementById('newTransactionModal')
   const newForm = document.getElementById('newTransactionForm')
@@ -199,6 +264,7 @@ if (token) {
         const data = await response.json()
         newError.textContent = data.error || 'Failed to save'
         newError.hidden = false
+        showToast('Transaction save failed', 'error')
         submitBtn.disabled = false
         submitBtn.textContent = 'Save Transaction'
         return
@@ -208,10 +274,12 @@ if (token) {
       newModal.hidden = true
       submitBtn.disabled = false
       submitBtn.textContent = 'Save Transaction'
+      showToast('Transaction saved')
       loadTransactions()
     } catch (error) {
       newError.textContent = 'Network error. Please try again.'
       newError.hidden = false
+      showToast('Transaction save failed', 'error')
       submitBtn.disabled = false
       submitBtn.textContent = 'Save Transaction'
     }
@@ -222,12 +290,15 @@ if (token) {
     if (!confirm('Approve this transaction?')) return
 
     try {
-      await fetchWithAuth(`${API_URL}/transactions/${id}/approve`, {
+      const response = await fetchWithAuth(`${API_URL}/transactions/${id}/approve`, {
         method: 'PUT',
       })
+      if (!response.ok) throw new Error('Approval failed')
+      showToast('Transaction approved')
       loadTransactions()
     } catch (error) {
       console.error('Failed to approve', error)
+      showToast('Transaction approval failed', 'error')
     }
   }
 
@@ -264,6 +335,7 @@ if (token) {
     if (!reason) {
       rejectError.textContent = 'You must explain why this transaction is being rejected.'
       rejectError.hidden = false
+      showToast('Please explain why this is rejected', 'error')
       return
     }
 
@@ -285,6 +357,7 @@ if (token) {
         const data = await response.json()
         rejectError.textContent = data.error || 'Failed to reject'
         rejectError.hidden = false
+        showToast('Transaction rejection failed', 'error')
         submitBtn.disabled = false
         submitBtn.textContent = 'Confirm Rejection'
         return
@@ -294,10 +367,12 @@ if (token) {
       submitBtn.disabled = false
       submitBtn.textContent = 'Confirm Rejection'
       pendingRejectId = null
+      showToast('Transaction rejected', 'warning')
       loadTransactions()
     } catch (error) {
       rejectError.textContent = 'Network error. Please try again.'
       rejectError.hidden = false
+      showToast('Transaction rejection failed', 'error')
       submitBtn.disabled = false
       submitBtn.textContent = 'Confirm Rejection'
     }

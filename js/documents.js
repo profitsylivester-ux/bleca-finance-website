@@ -1,4 +1,4 @@
-import { requireLogin, getUser, clearSession, fetchWithAuth, getToken } from './portal.js'
+import { requireLogin, getUser, clearSession, fetchWithAuth, getToken, showToast } from './portal.js'
 
 const API_URL = 'http://localhost:3001'
 
@@ -59,7 +59,7 @@ if (token) {
 
       documents.forEach((doc) => {
         const row = document.createElement('div')
-        row.className = 'portal-row'
+        row.className = 'portal-row portal-row--doc'
 
         const fileUrl = `${API_URL}/uploads/${encodeURIComponent(doc.filename)}`
 
@@ -117,6 +117,7 @@ if (token) {
     if (!fileInput.files || fileInput.files.length === 0) {
       uploadError.textContent = 'Please select a file.'
       uploadError.hidden = false
+      showToast('Please select a file', 'error')
       return
     }
 
@@ -125,6 +126,7 @@ if (token) {
     if (file.size > 5 * 1024 * 1024) {
       uploadError.textContent = 'File is too large. Max 5 MB.'
       uploadError.hidden = false
+      showToast('Upload failed', 'error')
       return
     }
 
@@ -150,6 +152,7 @@ if (token) {
         const data = await response.json()
         uploadError.textContent = data.error || 'Upload failed'
         uploadError.hidden = false
+        showToast('Upload failed', 'error')
         submitBtn.disabled = false
         submitBtn.textContent = 'Upload'
         return
@@ -158,10 +161,12 @@ if (token) {
       uploadModal.hidden = true
       submitBtn.disabled = false
       submitBtn.textContent = 'Upload'
+      showToast('Document uploaded')
       loadDocuments()
     } catch (error) {
       uploadError.textContent = 'Network error. Please try again.'
       uploadError.hidden = false
+      showToast('Upload failed', 'error')
       submitBtn.disabled = false
       submitBtn.textContent = 'Upload'
     }

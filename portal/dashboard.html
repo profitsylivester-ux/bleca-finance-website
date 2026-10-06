@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0F2A44">
   <title>Dashboard | BLECA Finance Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/portal.css">
 </head>
@@ -18,19 +21,43 @@
 
     <div class="portal-header-right">
       <span id="userGreeting" class="portal-user-greeting"></span>
+      <button type="button" class="portal-theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode"></button>
       <button type="button" id="logoutBtn" class="portal-logout">Logout</button>
     </div>
   </header>
 
-  <nav class="portal-nav">
-    <a href="dashboard.html" class="active">Dashboard</a>
-    <a href="transactions.html">Transactions</a>
-    <a href="documents.html">Documents</a>
+  <nav class="portal-nav" aria-label="Portal navigation">
+    <a href="dashboard.html" class="active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 9h8V3h-8z"/></svg>
+      Dashboard
+    </a>
+    <a href="transactions.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Transactions
+    </a>
+    <a href="documents.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Documents
+    </a>
+    <a href="activity.html" class="ceo-only" data-ceo-only hidden>
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Activity
+    </a>
+    <a href="profile.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Profile
+    </a>
   </nav>
 
   <main class="portal-content">
-    <h1 class="portal-page-title">Dashboard</h1>
-    <p class="portal-page-subtitle">Overview of the department's financial position.</p>
+    <div class="page-header">
+      <div>
+        <h1 class="portal-page-title">Dashboard</h1>
+        <p class="portal-page-subtitle">Overview of the department's financial position.</p>
+      </div>
+      <button type="button" id="downloadMonthlyReport" class="btn-new">Download Monthly Report</button>
+    </div>
+    <p id="reportError" class="portal-error" role="alert" hidden></p>
 
     <section class="stats-grid">
       <div class="stat-card">
@@ -58,6 +85,17 @@
       </div>
     </section>
 
+    <section class="dashboard-charts" aria-label="Financial charts">
+      <div class="chart-panel">
+        <h2>Income vs Expenses</h2>
+        <div class="chart-frame"><canvas id="monthlyTransactionsChart" role="img" aria-label="Income and expenses over the last six months"></canvas></div>
+      </div>
+      <div class="chart-panel">
+        <h2>Expenses by Category</h2>
+        <div class="chart-frame"><canvas id="expenseCategoriesChart" role="img" aria-label="Expenses by category"></canvas></div>
+      </div>
+    </section>
+
     <section class="portal-section">
       <div class="portal-section-header">
         <h2>Recent Transactions</h2>
@@ -79,6 +117,8 @@
 
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script type="module" src="../js/dashboard.js"></script>
 </body>
 </html>

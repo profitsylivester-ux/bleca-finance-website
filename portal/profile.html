@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F2A44">
+  <title>My Profile | BLECA Finance Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/portal.css">
+</head>
+<body class="portal-dashboard">
+  <header class="portal-header">
+    <div class="portal-header-left">
+      <img src="../images/logo.png" alt="BLECA SmartLabs" class="portal-header-logo">
+      <span class="portal-header-title">BLECA Finance Portal</span>
+    </div>
+    <div class="portal-header-right">
+      <span id="userGreeting" class="portal-user-greeting"></span>
+      <button type="button" id="themeToggle" class="portal-theme-toggle" aria-label="Enable dark mode"></button>
+      <button type="button" id="logoutBtn" class="portal-logout">Logout</button>
+    </div>
+  </header>
+
+  <nav class="portal-nav" aria-label="Portal navigation">
+    <a href="dashboard.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 9h8V3h-8z"/></svg>
+      Dashboard
+    </a>
+    <a href="transactions.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Transactions
+    </a>
+    <a href="documents.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Documents
+    </a>
+    <a href="activity.html" class="ceo-only" data-ceo-only hidden>
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Activity
+    </a>
+    <a href="profile.html" class="active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Profile
+    </a>
+  </nav>
+
+  <main class="portal-content">
+    <div class="page-header">
+      <div>
+        <h1 class="portal-page-title">My Profile</h1>
+        <p class="portal-page-subtitle">View your account details and update your password.</p>
+      </div>
+    </div>
+
+    <section class="portal-section profile-section" aria-labelledby="profileInfoTitle">
+      <h2 id="profileInfoTitle">Account Information</h2>
+      <dl class="profile-details">
+        <div><dt>Name</dt><dd id="profileName">—</dd></div>
+        <div><dt>Email</dt><dd id="profileEmail">—</dd></div>
+        <div><dt>Role</dt><dd id="profileRole">—</dd></div>
+      </dl>
+    </section>
+
+    <section class="portal-section profile-section" aria-labelledby="changePasswordTitle">
+      <h2 id="changePasswordTitle">Change Password</h2>
+      <form id="passwordForm" class="profile-form">
+        <div class="form-group">
+          <label for="currentPassword">Current password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>
+            <button type="button" class="password-toggle" data-password-toggle="currentPassword" aria-label="Show current password">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="newPassword" name="newPassword" autocomplete="new-password" minlength="8" required>
+            <button type="button" class="password-toggle" data-password-toggle="newPassword" aria-label="Show new password">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+          <small class="profile-hint">At least 8 characters, including a number.</small>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm new password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" minlength="8" required>
+            <button type="button" class="password-toggle" data-password-toggle="confirmPassword" aria-label="Show confirmation password">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+        <p id="passwordError" class="portal-error" role="alert" hidden></p>
+        <p id="passwordSuccess" class="portal-success" role="status" hidden></p>
+        <button type="submit" class="btn-primary profile-submit">Update Password</button>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="../js/profile.js"></script>
+</body>
+</html>

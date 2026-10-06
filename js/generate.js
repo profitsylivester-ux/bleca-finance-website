@@ -1,3 +1,5 @@
+import { showToast } from './portal.js'
+
 const { jsPDF } = window.jspdf
 
 // ===== GENERATE DOCUMENT MODAL =====
@@ -203,7 +205,7 @@ async function generateReceiptPdf(data) {
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('CITT Building, Mbeya University of Science and Technology', margin + 75, y + 24)
   doc.text('Mbeya, Tanzania', margin + 75, y + 36)
   doc.text('finance@blecasmartlabs.com  |  0746 044 144', margin + 75, y + 48)
@@ -225,7 +227,7 @@ async function generateReceiptPdf(data) {
   y += 40
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(12)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('Received with thanks from:', margin, y)
 
   y += 22
@@ -240,7 +242,7 @@ async function generateReceiptPdf(data) {
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(12)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('Amount received:', margin + 20, y + 24)
 
   doc.setFont('helvetica', 'bold')
@@ -250,14 +252,14 @@ async function generateReceiptPdf(data) {
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(11)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text(`Payment method: ${data.method}`, pageWidth - margin - 20, y + 24, { align: 'right' })
   doc.text(`Date: ${formatDateLong(data.date)}`, pageWidth - margin - 20, y + 46, { align: 'right' })
 
   y += 90
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(12)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('Purpose:', margin, y)
 
   y += 20
@@ -266,20 +268,20 @@ async function generateReceiptPdf(data) {
   doc.text(data.purpose, margin, y, { maxWidth: pageWidth - margin * 2 })
 
   y += 80
-  doc.setDrawColor('#999999')
+  doc.setDrawColor('#9ca3af')
   doc.setLineWidth(0.5)
   doc.line(margin, y, margin + 200, y)
 
   y += 16
   doc.setFontSize(11)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('Chris Bwesa', margin, y)
   y += 14
   doc.text('Chief Executive Officer, BLECA SmartLabs', margin, y)
 
   const pageHeight = doc.internal.pageSize.getHeight()
   doc.setFontSize(9)
-  doc.setTextColor('#999999')
+  doc.setTextColor('#9ca3af')
   doc.text(
     'This is a computer-generated receipt from BLECA SmartLabs.',
     pageWidth / 2,
@@ -288,6 +290,7 @@ async function generateReceiptPdf(data) {
   )
 
   doc.save(`Receipt-${data.number}.pdf`)
+  showToast('Document generated')
 }
 
 // ===== INVOICE =====
@@ -394,7 +397,7 @@ function attachInvoiceHandlers() {
       .filter((item) => item.desc && item.qty > 0)
 
     if (items.length === 0) {
-      alert('Please add at least one item.')
+      showToast('Please add at least one item', 'error')
       return
     }
 
@@ -435,7 +438,7 @@ async function generateInvoicePdf(data) {
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('CITT Building, Mbeya University of Science and Technology', margin + 75, y + 24)
   doc.text('Mbeya, Tanzania', margin + 75, y + 36)
   doc.text('finance@blecasmartlabs.com  |  0746 044 144', margin + 75, y + 48)
@@ -462,7 +465,7 @@ async function generateInvoicePdf(data) {
   y += 25
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(10)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text(`Invoice Date: ${formatDateLong(data.date)}`, margin, y)
   doc.text(`Terms: ${data.terms}`, pageWidth / 2, y)
   doc.text(`Due Date: ${formatDateLong(data.dueDate)}`, pageWidth - margin, y, { align: 'right' })
@@ -482,14 +485,14 @@ async function generateInvoicePdf(data) {
   if (data.clientAddress) {
     y += 14
     doc.setFontSize(10)
-    doc.setTextColor('#555555')
+    doc.setTextColor('#6b7280')
     doc.text(data.clientAddress, margin, y)
   }
 
   if (data.clientEmail) {
     y += 14
     doc.setFontSize(10)
-    doc.setTextColor('#555555')
+    doc.setTextColor('#6b7280')
     doc.text(data.clientEmail, margin, y)
   }
 
@@ -499,7 +502,7 @@ async function generateInvoicePdf(data) {
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(10)
-  doc.setTextColor('#ffffff')
+  doc.setTextColor('#F8F6F1')
   doc.text('Description', margin + 10, y + 16)
   doc.text('Qty', pageWidth - margin - 200, y + 16, { align: 'right' })
   doc.text('Rate', pageWidth - margin - 100, y + 16, { align: 'right' })
@@ -511,7 +514,7 @@ async function generateInvoicePdf(data) {
 
   data.items.forEach((item, index) => {
     if (index % 2 === 1) {
-      doc.setFillColor('#f9f9f9')
+      doc.setFillColor('#F8F6F1')
       doc.rect(margin, y, pageWidth - margin * 2, 22, 'F')
     }
 
@@ -525,14 +528,14 @@ async function generateInvoicePdf(data) {
   })
 
   y += 15
-  doc.setDrawColor('#dddddd')
+  doc.setDrawColor('#9ca3af')
   doc.setLineWidth(0.5)
   doc.line(pageWidth - margin - 250, y, pageWidth - margin, y)
 
   y += 20
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(11)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('Sub Total', pageWidth - margin - 250, y)
   doc.text(formatTZS(totalAmount), pageWidth - margin - 10, y, { align: 'right' })
 
@@ -559,7 +562,7 @@ async function generateInvoicePdf(data) {
   y += 16
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(10)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text(data.notes || '', margin, y, { maxWidth: pageWidth - margin * 2 })
 
   if (data.bankDetails) {
@@ -572,7 +575,7 @@ async function generateInvoicePdf(data) {
     y += 16
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(10)
-    doc.setTextColor('#555555')
+    doc.setTextColor('#6b7280')
     data.bankDetails.split('\n').forEach((line) => {
       doc.text(line, margin, y)
       y += 13
@@ -589,13 +592,13 @@ async function generateInvoicePdf(data) {
     y += 16
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(10)
-    doc.setTextColor('#555555')
+    doc.setTextColor('#6b7280')
     doc.text(data.termsText, margin, y, { maxWidth: pageWidth - margin * 2 })
   }
 
   const pageHeight = doc.internal.pageSize.getHeight()
   doc.setFontSize(9)
-  doc.setTextColor('#999999')
+  doc.setTextColor('#9ca3af')
   doc.text(
     'This is a computer-generated invoice from BLECA SmartLabs.',
     pageWidth / 2,
@@ -604,6 +607,7 @@ async function generateInvoicePdf(data) {
   )
 
   doc.save(`Invoice-${data.number}.pdf`)
+  showToast('Document generated')
 }
 
 // ===== CERTIFICATE (Microsoft style) =====
@@ -677,7 +681,7 @@ async function generateCertificatePdf(data) {
   const margin = 30
 
   // ===== SOFT CREAM BACKGROUND =====
-  doc.setFillColor('#FBF7EE')
+  doc.setFillColor('#F8F6F1')
   doc.rect(0, 0, pageWidth, pageHeight, 'F')
 
   // ===== OUTER NAVY BAND =====
@@ -733,7 +737,7 @@ async function generateCertificatePdf(data) {
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text(
     'CITT Building, Mbeya University of Science and Technology — Mbeya, Tanzania',
     pageWidth / 2,
@@ -760,7 +764,7 @@ async function generateCertificatePdf(data) {
   // ===== PRESENTATION LINE =====
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(11)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('This certificate is proudly presented to', pageWidth / 2, margin + 295, { align: 'center' })
 
   // ===== STUDENT NAME =====
@@ -782,7 +786,7 @@ async function generateCertificatePdf(data) {
   // ===== ACHIEVEMENT LINE =====
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(11)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text(
     'for successfully completing the program',
     pageWidth / 2,
@@ -799,7 +803,7 @@ async function generateCertificatePdf(data) {
   // ===== DURATION =====
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(11)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text(data.duration, pageWidth / 2, margin + 428, { align: 'center' })
 
   // ===== GOLD SEAL (bottom center) =====
@@ -808,7 +812,7 @@ async function generateCertificatePdf(data) {
   const sealR = 32
 
   doc.setDrawColor('#D4A853')
-  doc.setFillColor('#FBF7EE')
+  doc.setFillColor('#F8F6F1')
   doc.setLineWidth(2)
   doc.circle(sealX, sealY, sealR, 'FD')
 
@@ -818,7 +822,7 @@ async function generateCertificatePdf(data) {
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(9)
-  doc.setTextColor('#9a742d')
+  doc.setTextColor('#D4A853')
   doc.text('BLECA', sealX, sealY - 6, { align: 'center' })
   doc.text('OFFICIAL', sealX, sealY + 6, { align: 'center' })
   doc.text('2026', sealX, sealY + 18, { align: 'center' })
@@ -826,7 +830,7 @@ async function generateCertificatePdf(data) {
   // ===== SIGNATURE (left) =====
   const sigY = pageHeight - margin - 90
 
-  doc.setDrawColor('#555555')
+  doc.setDrawColor('#6b7280')
   doc.setLineWidth(0.7)
   doc.line(margin + 80, sigY, margin + 280, sigY)
 
@@ -837,12 +841,12 @@ async function generateCertificatePdf(data) {
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(10)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('Chief Executive Officer', margin + 80, sigY + 32)
   doc.text('BLECA SmartLabs', margin + 80, sigY + 46)
 
   // ===== DATE (right) =====
-  doc.setDrawColor('#555555')
+  doc.setDrawColor('#6b7280')
   doc.setLineWidth(0.7)
   doc.line(pageWidth - margin - 280, sigY, pageWidth - margin - 80, sigY)
 
@@ -853,22 +857,23 @@ async function generateCertificatePdf(data) {
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(10)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text(formatDateLong(data.date), pageWidth - margin - 280, sigY + 32)
   doc.text(data.location, pageWidth - margin - 280, sigY + 46)
 
   // ===== CERTIFICATE NUMBER =====
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
-  doc.setTextColor('#9a742d')
+  doc.setTextColor('#D4A853')
   doc.text(
     `Certificate No: ${data.number}`,
     pageWidth / 2,
-    pageHeight - margin - 20,
+    pageHeight - margin - 32,
     { align: 'center' }
   )
 
   doc.save(`Certificate-${data.number}.pdf`)
+  showToast('Document generated')
 }
 
 // ===== PROPOSAL =====
@@ -1016,7 +1021,7 @@ async function generateProposalPdf(data) {
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(22)
-  doc.setTextColor('#ffffff')
+  doc.setTextColor('#F8F6F1')
   doc.text('BLECA SmartLabs', pageWidth / 2, 230, { align: 'center' })
 
   doc.setFont('helvetica', 'normal')
@@ -1030,28 +1035,28 @@ async function generateProposalPdf(data) {
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(24)
-  doc.setTextColor('#ffffff')
+  doc.setTextColor('#F8F6F1')
   doc.text(data.title, pageWidth / 2, 330, { align: 'center', maxWidth: pageWidth - 160 })
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(12)
-  doc.setTextColor('#cfd8e0')
+  doc.setTextColor('#9ca3af')
   doc.text('Prepared for', pageWidth / 2, 400, { align: 'center' })
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(16)
-  doc.setTextColor('#ffffff')
+  doc.setTextColor('#F8F6F1')
   doc.text(data.client, pageWidth / 2, 425, { align: 'center', maxWidth: pageWidth - 160 })
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(11)
-  doc.setTextColor('#cfd8e0')
+  doc.setTextColor('#9ca3af')
   doc.text(formatDateLong(data.date), pageWidth / 2, 460, { align: 'center' })
   doc.text(`Proposal No: ${data.number}`, pageWidth / 2, 480, { align: 'center' })
 
   // footer contact
   doc.setFontSize(9)
-  doc.setTextColor('#8896a5')
+  doc.setTextColor('#9ca3af')
   doc.text(
     'CITT Building, Mbeya University of Science and Technology — Mbeya, Tanzania',
     pageWidth / 2,
@@ -1087,7 +1092,7 @@ async function generateProposalPdf(data) {
     if (!text) return
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(11)
-    doc.setTextColor('#333333')
+    doc.setTextColor('#1A1A1A')
     const lines = doc.splitTextToSize(text, pageWidth - margin * 2)
     lines.forEach((line) => {
       if (y > pageHeight - 70) {
@@ -1103,7 +1108,7 @@ async function generateProposalPdf(data) {
   const list = (items) => {
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(11)
-    doc.setTextColor('#333333')
+    doc.setTextColor('#1A1A1A')
     items.forEach((item) => {
       if (y > pageHeight - 70) {
         doc.addPage()
@@ -1167,7 +1172,7 @@ async function generateProposalPdf(data) {
     doc.rect(margin, y, pageWidth - margin * 2, 24, 'F')
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(10)
-    doc.setTextColor('#ffffff')
+    doc.setTextColor('#F8F6F1')
     doc.text('Item', margin + 10, y + 16)
     doc.text('Amount', pageWidth - margin - 10, y + 16, { align: 'right' })
     y += 24
@@ -1182,7 +1187,7 @@ async function generateProposalPdf(data) {
         y = 60
       }
       if (i % 2 === 1) {
-        doc.setFillColor('#f9f9f9')
+        doc.setFillColor('#F8F6F1')
         doc.rect(margin, y, pageWidth - margin * 2, 22, 'F')
       }
       doc.setFontSize(11)
@@ -1226,17 +1231,17 @@ async function generateProposalPdf(data) {
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(11)
-  doc.setTextColor('#333333')
+  doc.setTextColor('#1A1A1A')
   doc.text('Accepted for and on behalf of the client:', margin, y + 10)
 
   y += 60
-  doc.setDrawColor('#999999')
+  doc.setDrawColor('#9ca3af')
   doc.setLineWidth(0.7)
   doc.line(margin, y, margin + 200, y)
   doc.line(pageWidth - margin - 200, y, pageWidth - margin, y)
 
   doc.setFontSize(10)
-  doc.setTextColor('#555555')
+  doc.setTextColor('#6b7280')
   doc.text('Name and Signature', margin, y + 16)
   doc.text('Date', pageWidth - margin - 200, y + 16)
 
@@ -1245,7 +1250,7 @@ async function generateProposalPdf(data) {
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i)
     doc.setFontSize(9)
-    doc.setTextColor('#999999')
+    doc.setTextColor('#9ca3af')
     doc.text(
       `BLECA SmartLabs — Proposal ${data.number} — Page ${i} of ${totalPages}`,
       pageWidth / 2,
@@ -1255,4 +1260,5 @@ async function generateProposalPdf(data) {
   }
 
   doc.save(`Proposal-${data.number}.pdf`)
+  showToast('Document generated')
 }

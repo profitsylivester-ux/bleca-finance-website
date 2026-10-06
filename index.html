@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finance & Accounting | BLECA SmartLabs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -37,8 +41,14 @@
 
   <main>
     <section class="hero">
-      <img class="hero-background" src="images/finance-team.jpg" alt="" aria-hidden="true">
-      <div class="hero-inner">
+      <div class="hero-slideshow" aria-hidden="true">
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80');"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1920&q=80');"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1920&q=80');"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1607988795691-3d0147b43231?auto=format&fit=crop&w=1920&q=80');"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1920&q=80');"></div>
+      </div>
+      <div class="hero-inner" data-aos="fade-up">
         <p class="hero-eyebrow">BLECA SmartLabs</p>
         <h1>Finance & Accounting</h1>
         <p class="hero-tagline">Clear finances. Confident decisions. Lasting impact.</p>
@@ -129,5 +139,7 @@
 
   <script src="js/script.js" defer></script>
   <script src="js/chatbot.js" defer></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>if (window.AOS) window.AOS.init({ duration: 700, easing: 'ease-out', once: true, offset: 80 });</script>
 </body>
 </html>
