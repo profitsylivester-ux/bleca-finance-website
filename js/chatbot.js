@@ -1,4 +1,4 @@
-// AI chatbot powered by the BLECA Finance backend (Google Gemini).
+// AI chatbot powered by the BLECA Finance backend (Groq).
 
 const API_URL = 'https://bleca-finance-backend.onrender.com/chat'
 
@@ -16,11 +16,38 @@ if (chatbot) {
   let hasWelcomed = false
   let isWaiting = false
 
+  // Render text with line breaks and simple bullets safely
+  const renderMessageText = (container, text) => {
+    const lines = text.split('\n')
+
+    lines.forEach((line, index) => {
+      if (index > 0) {
+        container.appendChild(document.createElement('br'))
+      }
+
+      // Detect simple bullet lines starting with "* " or "- "
+      const trimmed = line.trim()
+      if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+        const bulletLine = document.createElement('span')
+        bulletLine.textContent = '• ' + trimmed.slice(2)
+        bulletLine.style.display = 'inline-block'
+        bulletLine.style.paddingLeft = '4px'
+        container.appendChild(bulletLine)
+      } else {
+        container.appendChild(document.createTextNode(line))
+      }
+    })
+  }
+
   // Add a chat message bubble
   const addMessage = (text, sender) => {
     const message = document.createElement('p')
     message.className = `chatbot-message chatbot-message--${sender}`
-    message.textContent = text
+
+    if (text) {
+      renderMessageText(message, text)
+    }
+
     messageList.append(message)
     messageList.scrollTop = messageList.scrollHeight
     return message
