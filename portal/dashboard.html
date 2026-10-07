@@ -87,12 +87,47 @@
 
     <section class="dashboard-charts" aria-label="Financial charts">
       <div class="chart-panel">
-        <h2>Income vs Expenses</h2>
-        <div class="chart-frame"><canvas id="monthlyTransactionsChart" role="img" aria-label="Income and expenses over the last six months"></canvas></div>
+        <div class="chart-panel-header">
+          <h2>Income vs Expenses</h2>
+          <div class="chart-controls">
+            <select id="seriesChartType" class="chart-select" aria-label="Income vs Expenses chart type">
+              <option value="bar" selected>Bar</option>
+              <option value="line">Line</option>
+            </select>
+            <select id="seriesPeriod" class="chart-select" aria-label="Income vs Expenses period">
+              <option value="weekly">Weekly</option>
+              <option value="monthly" selected>Monthly</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="annual">Annual</option>
+            </select>
+          </div>
+        </div>
+        <div class="chart-frame">
+          <canvas id="monthlyTransactionsChart" role="img" aria-label="Income and expenses over the selected period"></canvas>
+          <p class="chart-fallback" id="seriesChartStatus" hidden></p>
+        </div>
       </div>
+
       <div class="chart-panel">
-        <h2>Expenses by Category</h2>
-        <div class="chart-frame"><canvas id="expenseCategoriesChart" role="img" aria-label="Expenses by category"></canvas></div>
+        <div class="chart-panel-header">
+          <h2>Expenses by Category</h2>
+          <div class="chart-controls">
+            <select id="categoryChartType" class="chart-select" aria-label="Expenses by Category chart type">
+              <option value="doughnut" selected>Doughnut</option>
+              <option value="pie">Pie</option>
+            </select>
+            <select id="categoryPeriod" class="chart-select" aria-label="Expenses by Category period">
+              <option value="weekly">Weekly</option>
+              <option value="monthly" selected>Monthly</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="annual">Annual</option>
+            </select>
+          </div>
+        </div>
+        <div class="chart-frame">
+          <canvas id="expenseCategoriesChart" role="img" aria-label="Expenses by category"></canvas>
+          <p class="chart-fallback" id="categoryChartStatus" hidden></p>
+        </div>
       </div>
     </section>
 
