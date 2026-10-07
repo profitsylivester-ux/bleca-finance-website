@@ -1380,6 +1380,7 @@ body.dark .doc-type-card,
 body.dark .profile-details > div {
   border-color: rgba(212, 168, 83, 0.35);
   background-color: #0F2A44;
+  background-image: none;
   color: #F8F6F1;
 }
 
