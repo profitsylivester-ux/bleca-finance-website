@@ -61,7 +61,7 @@
   border-radius: 8px;
   background: transparent;
   color: #D4A853;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
@@ -112,12 +112,13 @@
 
 .portal-page-title {
   font-size: 32px;
+  font-weight: 700;
   color: #0F2A44;
   margin-bottom: 6px;
 }
 
 .portal-page-subtitle {
-  font-size: 15px;
+  font-size: 14px;
   color: #6b7280;
   margin-bottom: 32px;
 }
@@ -147,7 +148,6 @@
 }
 
 .stat-value {
-  font-size: 24px;
   font-weight: 700;
   color: #0F2A44;
   margin-bottom: 4px;
@@ -177,6 +177,7 @@
 
 .portal-section-header h2 {
   font-size: 18px;
+  font-weight: 700;
   color: #0F2A44;
   margin: 0;
 }
@@ -201,7 +202,7 @@
 
 .portal-empty {
   font-size: 14px;
-  color: #9ca3af;
+  color: #6b7280;
   padding: 12px 0;
 }
 
@@ -263,8 +264,8 @@
 }
 
 .status-pill.pending {
-  background-color: #fff3cd;
-  color: #D4A853;
+  background-color: #D4A853;
+  color: #0F2A44;
 }
 
 .status-pill.approved {
@@ -293,7 +294,7 @@
   color: #F8F6F1;
   border: none;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
@@ -350,8 +351,8 @@
 .btn-approve,
 .btn-reject {
   padding: 7px 14px;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
   font-family: inherit;
@@ -435,6 +436,7 @@
 
 .modal-header h2 {
   font-size: 18px;
+  font-weight: 700;
   color: #0F2A44;
   margin: 0;
 }
@@ -496,7 +498,7 @@
 }
 
 .modal-hint {
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
   line-height: 1.6;
   background-color: #f8f6f1;
@@ -518,7 +520,7 @@
   padding: 13px;
   border: none;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
@@ -528,6 +530,7 @@
 .btn-cancel {
   background-color: #F8F6F1;
   color: #6b7280;
+  font-size: 14px;
 }
 
 .btn-cancel:hover {
@@ -607,10 +610,6 @@
   .stats-grid {
     grid-template-columns: 1fr;
     gap: 14px;
-  }
-
-  .stat-value {
-    font-size: 20px;
   }
 
   .page-header {
@@ -722,7 +721,7 @@
   padding: 10px 12px;
   border: 1px solid #9ca3af;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 15px;
   font-family: inherit;
 }
 
@@ -743,6 +742,7 @@
   margin: 0 0 20px;
   color: #0F2A44;
   font-size: 18px;
+  font-weight: 700;
 }
 
 .profile-details {
@@ -803,6 +803,7 @@
   border-radius: 8px;
   background: #F8F6F1;
   font: inherit;
+  font-size: 15px;
 }
 
 .password-toggle {
@@ -827,7 +828,7 @@
 
 .profile-hint {
   color: #6b7280;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .profile-submit {
@@ -872,6 +873,7 @@
   background: #F8F6F1;
   color: #1a1a1a;
   font: inherit;
+  font-size: 15px;
 }
 
 .dashboard-charts {
@@ -892,7 +894,8 @@
 .chart-panel h2 {
   margin: 0 0 18px;
   color: #0F2A44;
-  font-size: 17px;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .chart-frame {
@@ -1093,7 +1096,8 @@ body.dark table td {
 
 /* ===== BLECA PORTAL DESIGN SYSTEM ===== */
 body {
-  font-family: 'Inter', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .portal-page-title,
