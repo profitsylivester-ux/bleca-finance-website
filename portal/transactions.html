@@ -105,8 +105,19 @@
         </div>
 
         <div class="form-group">
-          <label for="txAmount">Amount (TZS)</label>
+          <label for="txAmount">Amount</label>
           <input type="number" id="txAmount" min="1" step="1" required>
+        </div>
+
+        <div class="form-group">
+          <label for="txCurrency">Currency</label>
+          <select id="txCurrency" required>
+            <option value="TZS" selected>TZS — Tanzanian Shilling</option>
+            <option value="USD">USD — US Dollar</option>
+            <option value="KES">KES — Kenyan Shilling</option>
+            <option value="EUR">EUR — Euro</option>
+            <option value="GBP">GBP — British Pound</option>
+          </select>
         </div>
 
         <div class="form-group">

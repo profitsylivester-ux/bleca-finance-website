@@ -246,6 +246,7 @@ if (token) {
       date: document.getElementById('txDate').value,
       description: document.getElementById('txDescription').value.trim(),
       amount: Number(document.getElementById('txAmount').value),
+      currency: document.getElementById('txCurrency').value,
       type: document.getElementById('txType').value,
       category: document.getElementById('txCategory').value,
       project: document.getElementById('txProject').value.trim() || 'General',
