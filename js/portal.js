@@ -1,7 +1,7 @@
 // Backend URL — BLECA Finance Portal backend on Render
 const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 
-import { t, getLanguage } from './i18n.js'
+import { t, getLanguage, setLanguage } from './i18n.js'
 
 function applyTranslations() {
   document.querySelectorAll('[data-i18n]').forEach((el) => {
@@ -11,8 +11,69 @@ function applyTranslations() {
 }
 
 document.documentElement.setAttribute('lang', getLanguage())
-applyTranslations()
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', applyTranslations)
+} else {
+  applyTranslations()
+}
 window.addEventListener('languagechange', applyTranslations)
+
+function mountLanguageSwitcher() {
+  const themeToggle = document.getElementById('themeToggle')
+  if (!themeToggle) return
+  const parent = themeToggle.parentElement
+  if (!parent) return
+  if (document.getElementById('languageToggle')) return
+
+  const wrap = document.createElement('div')
+  wrap.className = 'portal-lang-wrap'
+
+  const label = document.createElement('label')
+  label.className = 'visually-hidden'
+  label.setAttribute('for', 'languageToggle')
+  label.textContent = t('lang.label')
+
+  const select = document.createElement('select')
+  select.id = 'languageToggle'
+  select.className = 'portal-lang-select'
+  select.setAttribute('aria-label', t('lang.label'))
+
+  const current = getLanguage()
+  const optEn = document.createElement('option')
+  optEn.value = 'en'
+  optEn.textContent = t('lang.en')
+  if (current === 'en') optEn.selected = true
+
+  const optSw = document.createElement('option')
+  optSw.value = 'sw'
+  optSw.textContent = t('lang.sw')
+  if (current === 'sw') optSw.selected = true
+
+  select.appendChild(optEn)
+  select.appendChild(optSw)
+
+  select.addEventListener('change', (e) => {
+    setLanguage(e.target.value)
+  })
+
+  wrap.appendChild(label)
+  wrap.appendChild(select)
+  parent.insertBefore(wrap, themeToggle)
+}
+
+function initLanguageSwitcher() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mountLanguageSwitcher)
+  } else {
+    mountLanguageSwitcher()
+  }
+}
+
+initLanguageSwitcher()
+window.addEventListener('languagechange', () => {
+  const select = document.getElementById('languageToggle')
+  if (select) select.value = getLanguage()
+})
 
 // ===== TOKEN HELPERS =====
 

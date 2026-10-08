@@ -52,53 +52,53 @@
   <main class="portal-content">
     <div class="page-header">
       <div>
-        <h1 class="portal-page-title">Dashboard</h1>
-        <p class="portal-page-subtitle">Overview of the department's financial position.</p>
+        <h1 class="portal-page-title" data-i18n="dashboard.pageHeading">Dashboard</h1>
+        <p class="portal-page-subtitle" data-i18n="dashboard.pageSubtitle">Overview of the department's financial position.</p>
       </div>
-      <button type="button" id="downloadMonthlyReport" class="btn-new">Download Monthly Report</button>
+      <button type="button" id="downloadMonthlyReport" class="btn-new" data-i18n="dashboard.downloadReport">Download Monthly Report</button>
     </div>
     <p id="reportError" class="portal-error" role="alert" hidden></p>
 
     <section class="stats-grid">
       <div class="stat-card">
-        <p class="stat-label">Cash Position</p>
+        <p class="stat-label" data-i18n="dashboard.statCashLabel">Cash Position</p>
         <p class="stat-value" id="statCash">—</p>
         <p class="stat-hint">TZS</p>
       </div>
 
       <div class="stat-card">
-        <p class="stat-label">Received This Month</p>
+        <p class="stat-label" data-i18n="dashboard.statReceivedLabel">Received This Month</p>
         <p class="stat-value" id="statReceived">—</p>
         <p class="stat-hint">TZS</p>
       </div>
 
       <div class="stat-card">
-        <p class="stat-label">Spent This Month</p>
+        <p class="stat-label" data-i18n="dashboard.statSpentLabel">Spent This Month</p>
         <p class="stat-value" id="statSpent">—</p>
         <p class="stat-hint">TZS</p>
       </div>
 
       <div class="stat-card">
-        <p class="stat-label">Pending Approvals</p>
+        <p class="stat-label" data-i18n="dashboard.statPendingLabel">Pending Approvals</p>
         <p class="stat-value" id="statPending">—</p>
-        <p class="stat-hint">transactions waiting</p>
+        <p class="stat-hint" data-i18n="dashboard.statPendingHint">transactions waiting</p>
       </div>
     </section>
 
     <section class="dashboard-charts" aria-label="Financial charts">
       <div class="chart-panel">
         <div class="chart-panel-header">
-          <h2>Income vs Expenses</h2>
+          <h2 data-i18n="dashboard.chartIncomeTitle">Income vs Expenses</h2>
           <div class="chart-controls">
             <select id="seriesChartType" class="chart-select" aria-label="Income vs Expenses chart type">
-              <option value="bar" selected>Bar</option>
-              <option value="line">Line</option>
+              <option value="bar" selected data-i18n="dashboard.chartTypeBar">Bar</option>
+              <option value="line" data-i18n="dashboard.chartTypeLine">Line</option>
             </select>
             <select id="seriesPeriod" class="chart-select" aria-label="Income vs Expenses period">
-              <option value="weekly">Weekly</option>
-              <option value="monthly" selected>Monthly</option>
-              <option value="quarterly">Quarterly</option>
-              <option value="annual">Annual</option>
+              <option value="weekly" data-i18n="dashboard.periodWeekly">Weekly</option>
+              <option value="monthly" selected data-i18n="dashboard.periodMonthly">Monthly</option>
+              <option value="quarterly" data-i18n="dashboard.periodQuarterly">Quarterly</option>
+              <option value="annual" data-i18n="dashboard.periodAnnual">Annual</option>
             </select>
           </div>
         </div>
@@ -110,17 +110,17 @@
 
       <div class="chart-panel">
         <div class="chart-panel-header">
-          <h2>Expenses by Category</h2>
+          <h2 data-i18n="dashboard.chartCategoryTitle">Expenses by Category</h2>
           <div class="chart-controls">
             <select id="categoryChartType" class="chart-select" aria-label="Expenses by Category chart type">
-              <option value="doughnut" selected>Doughnut</option>
-              <option value="pie">Pie</option>
+              <option value="doughnut" selected data-i18n="dashboard.chartTypeDoughnut">Doughnut</option>
+              <option value="pie" data-i18n="dashboard.chartTypePie">Pie</option>
             </select>
             <select id="categoryPeriod" class="chart-select" aria-label="Expenses by Category period">
-              <option value="weekly">Weekly</option>
-              <option value="monthly" selected>Monthly</option>
-              <option value="quarterly">Quarterly</option>
-              <option value="annual">Annual</option>
+              <option value="weekly" data-i18n="dashboard.periodWeekly">Weekly</option>
+              <option value="monthly" selected data-i18n="dashboard.periodMonthly">Monthly</option>
+              <option value="quarterly" data-i18n="dashboard.periodQuarterly">Quarterly</option>
+              <option value="annual" data-i18n="dashboard.periodAnnual">Annual</option>
             </select>
           </div>
         </div>
@@ -133,8 +133,8 @@
 
     <section class="portal-section">
       <div class="portal-section-header">
-        <h2>Recent Transactions</h2>
-        <a href="transactions.html" class="portal-link">View all →</a>
+        <h2 data-i18n="dashboard.recentHeading">Recent Transactions</h2>
+        <a href="transactions.html" class="portal-link" data-i18n="dashboard.viewAll">View all →</a>
       </div>
       <div id="recentTransactions" class="portal-list">
         <p class="portal-empty">Loading...</p>
@@ -143,7 +143,7 @@
 
     <section class="portal-section">
       <div class="portal-section-header">
-        <h2>Pending Approvals</h2>
+        <h2 data-i18n="dashboard.pendingHeading">Pending Approvals</h2>
       </div>
       <div id="pendingApprovals" class="portal-list">
         <p class="portal-empty">Loading...</p>

@@ -1,5 +1,6 @@
 import { requireLogin, getUser, clearSession, fetchWithAuth } from './portal.js'
 import { formatMoney } from './currency.js'
+import { t } from './i18n.js'
 
 const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 
@@ -10,7 +11,7 @@ if (token) {
 
   const greeting = document.getElementById('userGreeting')
   if (greeting && user) {
-    greeting.textContent = `Logged in as ${user.name} (${user.role.replace('_', ' ')})`
+    greeting.textContent = t('dashboard.greeting').replace('{name}', user.name).replace('{role}', user.role.replace('_', ' '))
   }
 
   document.getElementById('logoutBtn')?.addEventListener('click', () => {
@@ -41,7 +42,7 @@ if (token) {
       const transactions = await response.json()
 
       if (transactions.length === 0) {
-        container.innerHTML = '<p class="portal-empty">No transactions yet.</p>'
+        container.innerHTML = `<p class="portal-empty">${t('dashboard.emptyRecent')}</p>`
         return
       }
 
@@ -71,7 +72,7 @@ if (token) {
       })
     } catch (error) {
       console.error('Failed to load recent', error)
-      container.innerHTML = '<p class="portal-empty">Could not load transactions.</p>'
+      container.innerHTML = `<p class="portal-empty">${t('dashboard.errorRecent')}</p>`
     }
   }
 
@@ -85,7 +86,7 @@ if (token) {
       const pending = transactions.filter((tx) => tx.status === 'pending')
 
       if (pending.length === 0) {
-        container.innerHTML = '<p class="portal-empty">No pending approvals.</p>'
+        container.innerHTML = `<p class="portal-empty">${t('dashboard.emptyPending')}</p>`
         return
       }
 
@@ -100,7 +101,7 @@ if (token) {
             <p class="portal-row-title">${escapeHtml(tx.description)}</p>
             <p class="portal-row-meta">
               ${new Date(tx.date).toLocaleDateString()} · ${escapeHtml(tx.category)}
-              · By ${escapeHtml(tx.createdBy?.name || 'Unknown')}
+              · By ${escapeHtml(tx.createdBy?.name || t('dashboard.unknownUser'))}
             </p>
           </div>
           <div class="portal-row-amount ${tx.type}">
@@ -112,7 +113,7 @@ if (token) {
       })
     } catch (error) {
       console.error('Failed to load pending', error)
-      container.innerHTML = '<p class="portal-empty">Could not load approvals.</p>'
+      container.innerHTML = `<p class="portal-empty">${t('dashboard.errorPending')}</p>`
     }
   }
 
@@ -208,7 +209,7 @@ if (token) {
     const renderId = ++seriesRenderId
 
     if (typeof Chart === 'undefined') {
-      setChartStatus(seriesCanvas, seriesStatus, 'Chart library failed to load.')
+      setChartStatus(seriesCanvas, seriesStatus, t('dashboard.chartLibError'))
       return
     }
 
@@ -254,8 +255,8 @@ if (token) {
         data: {
           labels,
           datasets: [
-            makeDataset('Income', 'income', theme.income),
-            makeDataset('Expense', 'expense', theme.expense),
+            makeDataset(t('dashboard.legendIncome'), 'income', theme.income),
+            makeDataset(t('dashboard.legendExpense'), 'expense', theme.expense),
           ],
         },
         options: {
@@ -283,7 +284,7 @@ if (token) {
       console.error('Failed to load income vs expenses chart', error)
       seriesChart?.destroy()
       seriesChart = null
-      setChartStatus(seriesCanvas, seriesStatus, 'Could not load chart data.')
+      setChartStatus(seriesCanvas, seriesStatus, t('dashboard.chartLoadError'))
     }
   }
 
@@ -293,7 +294,7 @@ if (token) {
     const renderId = ++categoryRenderId
 
     if (typeof Chart === 'undefined') {
-      setChartStatus(categoryCanvas, categoryStatus, 'Chart library failed to load.')
+      setChartStatus(categoryCanvas, categoryStatus, t('dashboard.chartLibError'))
       return
     }
 
@@ -309,7 +310,7 @@ if (token) {
       if (items.length === 0) {
         categoryChart?.destroy()
         categoryChart = null
-        setChartStatus(categoryCanvas, categoryStatus, 'No approved expenses in this period.')
+        setChartStatus(categoryCanvas, categoryStatus, t('dashboard.noExpenses'))
         return
       }
 
@@ -350,7 +351,7 @@ if (token) {
       console.error('Failed to load expenses by category chart', error)
       categoryChart?.destroy()
       categoryChart = null
-      setChartStatus(categoryCanvas, categoryStatus, 'Could not load chart data.')
+      setChartStatus(categoryCanvas, categoryStatus, t('dashboard.chartLoadError'))
     }
   }
 
@@ -364,6 +365,13 @@ if (token) {
     renderCategoryChart()
   })
   themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] })
+
+  window.addEventListener('languagechange', () => {
+    loadRecent()
+    loadPending()
+    renderSeriesChart()
+    renderCategoryChart()
+  })
 
   loadSummary()
   loadRecent()
