@@ -1,4 +1,5 @@
 import { requireLogin, getUser, clearSession, fetchWithAuth } from './portal.js'
+import { formatMoney } from './currency.js'
 
 const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 
@@ -17,20 +18,14 @@ if (token) {
     window.location.href = 'login.html'
   })
 
-  const formatTZS = (value) => {
-    return new Intl.NumberFormat('en-TZ', {
-      maximumFractionDigits: 0,
-    }).format(value) + ' TZS'
-  }
-
   async function loadSummary() {
     try {
       const response = await fetchWithAuth(`${API_URL}/transactions/summary`)
       const data = await response.json()
 
-      document.getElementById('statCash').textContent = formatTZS(data.cashPosition)
-      document.getElementById('statReceived').textContent = formatTZS(data.receivedThisMonth)
-      document.getElementById('statSpent').textContent = formatTZS(data.spentThisMonth)
+      document.getElementById('statCash').textContent = formatMoney(data.cashPosition, 'TZS')
+      document.getElementById('statReceived').textContent = formatMoney(data.receivedThisMonth, 'TZS')
+      document.getElementById('statSpent').textContent = formatMoney(data.spentThisMonth, 'TZS')
       document.getElementById('statPending').textContent = data.pendingApprovals
     } catch (error) {
       console.error('Failed to load summary', error)
@@ -68,7 +63,7 @@ if (token) {
             </p>
           </div>
           <div class="portal-row-amount ${tx.type}">
-            ${sign} ${formatTZS(tx.amount)}
+            ${sign} ${formatMoney(tx.amount, tx.currency)}
           </div>
         `
 
@@ -109,7 +104,7 @@ if (token) {
             </p>
           </div>
           <div class="portal-row-amount ${tx.type}">
-            ${tx.type === 'income' ? '+' : '−'} ${formatTZS(tx.amount)}
+            ${tx.type === 'income' ? '+' : '−'} ${formatMoney(tx.amount, tx.currency)}
           </div>
         `
 
@@ -270,7 +265,7 @@ if (token) {
           plugins: {
             legend: { labels: { color: theme.text, usePointStyle: true, boxWidth: 8 } },
             tooltip: {
-              callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatTZS(ctx.parsed.y)}` },
+              callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatMoney(ctx.parsed.y, 'TZS')}` },
             },
           },
           scales: {
@@ -345,7 +340,7 @@ if (token) {
               labels: { color: theme.text, usePointStyle: true, boxWidth: 8 },
             },
             tooltip: {
-              callbacks: { label: (ctx) => `${ctx.label}: ${formatTZS(ctx.parsed)}` },
+              callbacks: { label: (ctx) => `${ctx.label}: ${formatMoney(ctx.parsed, 'TZS')}` },
             },
           },
         },
