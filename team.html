@@ -19,11 +19,11 @@
     </a>
 
     <ul class="nav-links" id="primary-navigation">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="team.html" class="active">Team</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html" data-i18n="site.navHome">Home</a></li>
+      <li><a href="about.html" data-i18n="site.navAbout">About</a></li>
+      <li><a href="services.html" data-i18n="site.navServices">Services</a></li>
+      <li><a href="team.html" class="active" data-i18n="site.navTeam">Team</a></li>
+      <li><a href="contact.html" data-i18n="site.navContact">Contact</a></li>
     </ul>
 
     <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false">
@@ -32,7 +32,15 @@
       </svg>
     </button>
 
-    <a href="portal/login.html" class="staff-link" title="Staff Login" aria-label="Staff Login">
+    <div class="public-lang-wrap">
+      <label class="visually-hidden" for="publicLangToggle">Language</label>
+      <select id="publicLangToggle" class="public-lang-select" aria-label="Language">
+        <option value="en">English</option>
+        <option value="sw">Kiswahili</option>
+      </select>
+    </div>
+
+    <a href="portal/login.html" class="staff-link" title="Staff Login" aria-label="Staff Login" data-i18n-title="site.staffLogin">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -164,6 +172,8 @@
   </section>
 </div>
 
+  <script type="module" src="js/i18n.js"></script>
+  <script type="module" src="js/public-lang.js"></script>
   <script src="js/script.js" defer></script>
   <script src="js/chatbot.js" defer></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>

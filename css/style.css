@@ -969,3 +969,44 @@ textarea:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== PUBLIC LANGUAGE SWITCHER ===== */
+.public-lang-wrap {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 14px;
+}
+
+.public-lang-select {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1A1A1A;
+  background-color: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.public-lang-select:hover {
+  border-color: #D4A853;
+  color: #D4A853;
+}
+
+.public-lang-select:focus {
+  outline: none;
+  border-color: #D4A853;
+  box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.25);
+}
+
+@media (max-width: 768px) {
+  .public-lang-wrap {
+    margin-right: 8px;
+  }
+  .public-lang-select {
+    font-size: 13px;
+    padding: 5px 8px;
+  }
+}
