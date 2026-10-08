@@ -1527,3 +1527,39 @@ body.dark .toast {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ===== LANGUAGE SWITCHER ===== */
+.portal-lang-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.portal-lang-select {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F2A44;
+  background-color: #F8F6F1;
+  border: 1px solid rgba(15, 42, 68, 0.2);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.portal-lang-select:hover {
+  border-color: #D4A853;
+}
+
+.portal-lang-select:focus {
+  outline: none;
+  border-color: #D4A853;
+  box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.25);
+}
+
+body.dark .portal-lang-select {
+  color: #F8F6F1;
+  background-color: #0F2A44;
+  border-color: rgba(212, 168, 83, 0.35);
+  color-scheme: dark;
+}

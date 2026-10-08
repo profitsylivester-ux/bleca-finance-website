@@ -50,25 +50,25 @@
   <main class="portal-content">
     <div class="page-header">
       <div>
-        <h1 class="portal-page-title">My Profile</h1>
-        <p class="portal-page-subtitle">View your account details and update your password.</p>
+        <h1 class="portal-page-title" data-i18n="profile.pageTitle">My Profile</h1>
+        <p class="portal-page-subtitle" data-i18n="profile.pageSubtitle">View your account details and update your password.</p>
       </div>
     </div>
 
     <section class="portal-section profile-section" aria-labelledby="profileInfoTitle">
-      <h2 id="profileInfoTitle">Account Information</h2>
+      <h2 id="profileInfoTitle" data-i18n="profile.infoTitle">Account Information</h2>
       <dl class="profile-details">
-        <div><dt>Name</dt><dd id="profileName">—</dd></div>
-        <div><dt>Email</dt><dd id="profileEmail">—</dd></div>
-        <div><dt>Role</dt><dd id="profileRole">—</dd></div>
+        <div><dt data-i18n="profile.labelName">Name</dt><dd id="profileName">—</dd></div>
+        <div><dt data-i18n="profile.labelEmail">Email</dt><dd id="profileEmail">—</dd></div>
+        <div><dt data-i18n="profile.labelRole">Role</dt><dd id="profileRole">—</dd></div>
       </dl>
     </section>
 
     <section class="portal-section profile-section" aria-labelledby="changePasswordTitle">
-      <h2 id="changePasswordTitle">Change Password</h2>
+      <h2 id="changePasswordTitle" data-i18n="profile.changePasswordTitle">Change Password</h2>
       <form id="passwordForm" class="profile-form">
         <div class="form-group">
-          <label for="currentPassword">Current password</label>
+          <label for="currentPassword" data-i18n="profile.labelCurrentPassword">Current password</label>
           <div class="password-input-wrap">
             <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>
             <button type="button" class="password-toggle" data-password-toggle="currentPassword" aria-label="Show current password">
@@ -77,17 +77,17 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="newPassword">New password</label>
+          <label for="newPassword" data-i18n="profile.labelNewPassword">New password</label>
           <div class="password-input-wrap">
             <input type="password" id="newPassword" name="newPassword" autocomplete="new-password" minlength="8" required>
             <button type="button" class="password-toggle" data-password-toggle="newPassword" aria-label="Show new password">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
           </div>
-          <small class="profile-hint">At least 8 characters, including a number.</small>
+          <small class="profile-hint" data-i18n="profile.hint">At least 8 characters, including a number.</small>
         </div>
         <div class="form-group">
-          <label for="confirmPassword">Confirm new password</label>
+          <label for="confirmPassword" data-i18n="profile.labelConfirmPassword">Confirm new password</label>
           <div class="password-input-wrap">
             <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" minlength="8" required>
             <button type="button" class="password-toggle" data-password-toggle="confirmPassword" aria-label="Show confirmation password">
@@ -97,7 +97,7 @@
         </div>
         <p id="passwordError" class="portal-error" role="alert" hidden></p>
         <p id="passwordSuccess" class="portal-success" role="status" hidden></p>
-        <button type="submit" class="btn-primary profile-submit">Update Password</button>
+        <button type="submit" class="btn-primary profile-submit" data-i18n="profile.updatePassword">Update Password</button>
       </form>
     </section>
   </main>

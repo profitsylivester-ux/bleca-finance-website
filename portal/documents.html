@@ -53,16 +53,16 @@
 
     <div class="page-header">
       <div>
-        <h1 class="portal-page-title">Documents</h1>
-        <p class="portal-page-subtitle">Receipts, invoices, contracts, and financial records.</p>
+        <h1 class="portal-page-title" data-i18n="doc.pageTitle">Documents</h1>
+        <p class="portal-page-subtitle" data-i18n="doc.pageSubtitle">Receipts, invoices, contracts, and financial records.</p>
       </div>
 
       <div class="header-actions">
-        <button type="button" id="openGenerateDoc" class="btn-new btn-generate">
+        <button type="button" id="openGenerateDoc" class="btn-new btn-generate" data-i18n="doc.generateDocument">
           📄 Generate Document
         </button>
 
-        <button type="button" id="openUploadDoc" class="btn-new">
+        <button type="button" id="openUploadDoc" class="btn-new" data-i18n="doc.uploadDocument">
           + Upload Document
         </button>
       </div>
@@ -80,40 +80,40 @@
   <div id="uploadModal" class="modal-overlay" hidden>
     <div class="modal">
       <div class="modal-header">
-        <h2>Upload Document</h2>
+        <h2 data-i18n="doc.uploadTitle">Upload Document</h2>
         <button type="button" class="modal-close" id="closeUploadModal" aria-label="Close">✕</button>
       </div>
 
       <form id="uploadForm" class="modal-body">
         <div class="form-group">
-          <label for="docType">Document Type</label>
+          <label for="docType" data-i18n="doc.labelType">Document Type</label>
           <select id="docType" required>
-            <option value="Receipt">Receipt</option>
-            <option value="Invoice">Invoice</option>
-            <option value="Contract">Contract</option>
-            <option value="Bank Statement">Bank Statement</option>
-            <option value="Payment Voucher">Payment Voucher</option>
-            <option value="Funding Document">Funding Document</option>
-            <option value="Tax Document">Tax Document</option>
-            <option value="Other">Other</option>
+            <option value="Receipt" data-i18n="doc.typeReceipt">Receipt</option>
+            <option value="Invoice" data-i18n="doc.typeInvoice">Invoice</option>
+            <option value="Contract" data-i18n="doc.typeContract">Contract</option>
+            <option value="Bank Statement" data-i18n="doc.typeBankStatement">Bank Statement</option>
+            <option value="Payment Voucher" data-i18n="doc.typePaymentVoucher">Payment Voucher</option>
+            <option value="Funding Document" data-i18n="doc.typeFundingDocument">Funding Document</option>
+            <option value="Tax Document" data-i18n="doc.typeTaxDocument">Tax Document</option>
+            <option value="Other" data-i18n="doc.typeOther">Other</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="docDescription">Description</label>
-          <input type="text" id="docDescription" placeholder="e.g. Bootcamp venue receipt, October 2026">
+          <label for="docDescription" data-i18n="doc.labelDescription">Description</label>
+          <input type="text" id="docDescription" placeholder="e.g. Bootcamp venue receipt, October 2026" data-i18n-placeholder="doc.descriptionPlaceholder">
         </div>
 
         <div class="form-group">
-          <label for="docFile">File (PDF, image — max 5 MB)</label>
+          <label for="docFile" data-i18n="doc.labelFile">File (PDF, image — max 5 MB)</label>
           <input type="file" id="docFile" accept=".pdf,.png,.jpg,.jpeg,.webp" required>
         </div>
 
         <p id="uploadError" class="portal-error" hidden></p>
 
         <div class="modal-actions">
-          <button type="button" class="btn-cancel" id="cancelUploadModal">Cancel</button>
-          <button type="submit" class="btn-primary" id="submitUpload">Upload</button>
+          <button type="button" class="btn-cancel" id="cancelUploadModal" data-i18n="doc.cancel">Cancel</button>
+          <button type="submit" class="btn-primary" id="submitUpload" data-i18n="doc.upload">Upload</button>
         </div>
       </form>
     </div>
@@ -123,7 +123,7 @@
   <div id="generateModal" class="modal-overlay" hidden>
     <div class="modal">
       <div class="modal-header">
-        <h2 id="generateTitle">Generate Document</h2>
+        <h2 id="generateTitle" data-i18n="doc.generateTitle">Generate Document</h2>
         <button type="button" class="modal-close" id="closeGenerateModal" aria-label="Close">✕</button>
       </div>
 
@@ -131,27 +131,27 @@
 
         <!-- STEP 1: choose document type -->
         <div id="generateTypeStep">
-          <p class="modal-hint">What kind of document do you want to create?</p>
+          <p class="modal-hint" data-i18n="doc.generateHint">What kind of document do you want to create?</p>
 
           <div class="doc-type-grid">
             <button type="button" class="doc-type-card" data-doc-type="receipt">
               <span class="doc-type-icon-wrap">🧾</span>
-              <span class="doc-type-name">Receipt</span>
+              <span class="doc-type-name" data-i18n="doc.typeReceiptBtn">Receipt</span>
             </button>
 
             <button type="button" class="doc-type-card" data-doc-type="invoice">
               <span class="doc-type-icon-wrap">📑</span>
-              <span class="doc-type-name">Invoice</span>
+              <span class="doc-type-name" data-i18n="doc.typeInvoiceBtn">Invoice</span>
             </button>
 
             <button type="button" class="doc-type-card" data-doc-type="certificate">
               <span class="doc-type-icon-wrap">🎓</span>
-              <span class="doc-type-name">Certificate</span>
+              <span class="doc-type-name" data-i18n="doc.typeCertificateBtn">Certificate</span>
             </button>
 
             <button type="button" class="doc-type-card" data-doc-type="proposal">
               <span class="doc-type-icon-wrap">📄</span>
-              <span class="doc-type-name">Proposal</span>
+              <span class="doc-type-name" data-i18n="doc.typeProposalBtn">Proposal</span>
             </button>
           </div>
         </div>

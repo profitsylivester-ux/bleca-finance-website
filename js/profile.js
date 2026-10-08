@@ -1,4 +1,5 @@
 import { requireLogin, getUser, clearSession, fetchWithAuth, showToast } from './portal.js'
+import { t } from './i18n.js'
 
 const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 const token = requireLogin()
@@ -8,7 +9,7 @@ if (token) {
   const greeting = document.getElementById('userGreeting')
 
   if (user) {
-    if (greeting) greeting.textContent = `Logged in as ${user.name} (${user.role.replace('_', ' ')})`
+    if (greeting) greeting.textContent = `${t('header.loggedInAs')} ${user.name} (${user.role.replace('_', ' ')})`
     document.getElementById('profileName').textContent = user.name
     document.getElementById('profileEmail').textContent = user.email
     document.getElementById('profileRole').textContent = user.role.replaceAll('_', ' ')
@@ -43,21 +44,21 @@ if (token) {
     const confirmPassword = document.getElementById('confirmPassword').value
 
     if (newPassword !== confirmPassword) {
-      errorMessage.textContent = 'The new passwords do not match.'
+      errorMessage.textContent = t('profile.passwordMismatch')
       errorMessage.hidden = false
-      showToast('Passwords do not match', 'error')
+      showToast(t('profile.toastMismatch'), 'error')
       return
     }
 
     if (newPassword.length < 8 || !/\d/.test(newPassword)) {
-      errorMessage.textContent = 'New password must be at least 8 characters and include a number.'
+      errorMessage.textContent = t('profile.passwordWeak')
       errorMessage.hidden = false
-      showToast('Password does not meet requirements', 'error')
+      showToast(t('profile.toastWeak'), 'error')
       return
     }
 
     submitButton.disabled = true
-    submitButton.textContent = 'Updating...'
+    submitButton.textContent = t('profile.updating')
 
     try {
       const response = await fetchWithAuth(`${API_URL}/auth/password`, {
@@ -68,23 +69,29 @@ if (token) {
       const data = await response.json()
 
       if (!response.ok) {
-        errorMessage.textContent = data.error || 'Could not update password.'
+        errorMessage.textContent = data.error || t('profile.errorGeneric')
         errorMessage.hidden = false
-        showToast(data.error || 'Password update failed', 'error')
+        showToast(data.error || t('profile.toastUpdateFailed'), 'error')
         return
       }
 
       passwordForm.reset()
-      successMessage.textContent = data.message || 'Password updated.'
+      successMessage.textContent = data.message || t('profile.toastUpdated')
       successMessage.hidden = false
-      showToast('Password updated')
+      showToast(t('profile.toastUpdated'))
     } catch (error) {
-      errorMessage.textContent = 'Could not reach the server. Please try again.'
+      errorMessage.textContent = t('profile.errorNetwork')
       errorMessage.hidden = false
-      showToast('Password update failed', 'error')
+      showToast(t('profile.toastUpdateFailed'), 'error')
     } finally {
       submitButton.disabled = false
-      submitButton.textContent = 'Update Password'
+      submitButton.textContent = t('profile.updatePassword')
     }
+  })
+
+  // ===== LANGUAGE CHANGE =====
+  window.addEventListener('languagechange', () => {
+    // Re-render any dynamic content if needed
+    // Profile data is static from user object, but greeting is updated by portal.js
   })
 }

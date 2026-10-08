@@ -1,4 +1,5 @@
 import { requireLogin, getUser, clearSession, fetchWithAuth, showToast } from './portal.js'
+import { t } from './i18n.js'
 const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 const token = requireLogin()
 
@@ -9,7 +10,7 @@ if (token) {
     window.location.href = 'dashboard.html'
   } else {
     const greeting = document.getElementById('userGreeting')
-    if (greeting) greeting.textContent = `Logged in as ${user.name} (${user.role.replace('_', ' ')})`
+    if (greeting) greeting.textContent = `${t('header.loggedInAs')} ${user.name} (${user.role.replace('_', ' ')})`
 
     document.getElementById('logoutBtn')?.addEventListener('click', () => {
       clearSession()
@@ -27,7 +28,7 @@ if (token) {
       activityList.replaceChildren()
 
       if (activities.length === 0) {
-        activityList.innerHTML = '<p class="portal-empty">No activity has been recorded yet.</p>'
+        activityList.innerHTML = `<p class="portal-empty">${t('activity.empty')}</p>`
         return
       }
 
@@ -47,7 +48,7 @@ if (token) {
 
         const details = document.createElement('p')
         details.className = 'activity-details'
-        details.textContent = activity.details || 'No additional details.'
+        details.textContent = activity.details || t('activity.noDetails')
         row.append(main, details)
         activityList.append(row)
       })
@@ -60,11 +61,16 @@ if (token) {
         if (!response.ok) throw new Error(data.error || 'Could not load activity.')
         renderActivities(data)
       } catch (error) {
-        activityList.innerHTML = '<p class="portal-empty">Could not load activity. Please try again.</p>'
-        showToast('Could not load activity', 'error')
+        activityList.innerHTML = `<p class="portal-empty">${t('activity.errorLoad')}</p>`
+        showToast(t('activity.toastError'), 'error')
       }
     }
 
     loadActivity()
+
+    // ===== LANGUAGE CHANGE =====
+    window.addEventListener('languagechange', () => {
+      loadActivity()
+    })
   }
 }

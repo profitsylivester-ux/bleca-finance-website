@@ -1,5 +1,6 @@
 import { requireLogin, getUser, clearSession, fetchWithAuth, showToast } from './portal.js'
 import { formatMoney } from './currency.js'
+import { t } from './i18n.js'
 const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 
 const token = requireLogin()
@@ -11,7 +12,7 @@ if (token) {
   // ===== HEADER =====
   const greeting = document.getElementById('userGreeting')
   if (greeting && user) {
-    greeting.textContent = `Logged in as ${user.name} (${user.role.replace('_', ' ')})`
+    greeting.textContent = `${t('header.loggedInAs')} ${user.name} (${user.role.replace('_', ' ')})`
   }
 
   document.getElementById('logoutBtn')?.addEventListener('click', () => {
@@ -53,7 +54,7 @@ if (token) {
       renderTransactions()
     } catch (error) {
       console.error('Failed to load transactions', error)
-      container.innerHTML = '<p class="portal-empty">Could not load transactions.</p>'
+      container.innerHTML = `<p class="portal-empty">${t('tx.errorLoad')}</p>`
     }
   }
 
@@ -68,7 +69,19 @@ if (token) {
     })
 
     if (filtered.length === 0) {
-      container.innerHTML = `<p class="portal-empty">${searchQuery ? 'No transactions match your search.' : `No ${currentFilter === 'all' ? '' : currentFilter + ' '}transactions.`}</p>`
+      let emptyMsg = ''
+      if (searchQuery) {
+        emptyMsg = t('tx.emptySearch')
+      } else if (currentFilter === 'all') {
+        emptyMsg = t('tx.emptyAll')
+      } else if (currentFilter === 'pending') {
+        emptyMsg = t('tx.emptyPending')
+      } else if (currentFilter === 'approved') {
+        emptyMsg = t('tx.emptyApproved')
+      } else if (currentFilter === 'rejected') {
+        emptyMsg = t('tx.emptyRejected')
+      }
+      container.innerHTML = `<p class="portal-empty">${emptyMsg}</p>`
       return
     }
 
@@ -86,8 +99,8 @@ if (token) {
       if (tx.status === 'pending' && isCEO) {
         actionsHtml = `
           <div class="tx-actions">
-            <button class="btn-approve" data-action="approve" data-id="${tx._id}">Approve</button>
-            <button class="btn-reject" data-action="reject" data-id="${tx._id}">Reject</button>
+            <button class="btn-approve" data-action="approve" data-id="${tx._id}">${t('tx.approve')}</button>
+            <button class="btn-reject" data-action="reject" data-id="${tx._id}">${t('tx.reject')}</button>
           </div>
         `
       }
@@ -96,7 +109,7 @@ if (token) {
       if (tx.status === 'rejected' && tx.rejectionReason) {
         rejectionHtml = `
           <div class="tx-rejection-reason">
-            <strong>Rejected:</strong> ${escapeHtml(tx.rejectionReason)}
+            <strong>${t('tx.rejectedLabel')}</strong> ${escapeHtml(tx.rejectionReason)}
           </div>
         `
       }
@@ -108,10 +121,10 @@ if (token) {
               <p class="portal-row-title">${escapeHtml(tx.description)}</p>
               <p class="portal-row-meta">
                 ${formatDate(tx.date)} · ${escapeHtml(tx.category)} · ${escapeHtml(tx.project)}
-                · By ${escapeHtml(tx.createdBy?.name || 'Unknown')}
+                · ${t('tx.by')} ${escapeHtml(tx.createdBy?.name || t('tx.unknownUser'))}
               </p>
               <p style="margin-top:6px;">
-                <span class="status-pill ${tx.status}">${tx.status}</span>
+                <span class="status-pill ${tx.status}">${t('tx.status' + tx.status.charAt(0).toUpperCase() + tx.status.slice(1))}</span>
               </p>
             </div>
             <div class="portal-row-amount ${tx.type}" style="text-align:right;">
@@ -236,7 +249,7 @@ if (token) {
 
     const submitBtn = document.getElementById('submitNewTx')
     submitBtn.disabled = true
-    submitBtn.textContent = 'Saving...'
+    submitBtn.textContent = t('tx.saving')
 
     const payload = {
       date: document.getElementById('txDate').value,
@@ -258,43 +271,43 @@ if (token) {
 
       if (!response.ok) {
         const data = await response.json()
-        newError.textContent = data.error || 'Failed to save'
+        newError.textContent = data.error || t('tx.errorSaveFailed')
         newError.hidden = false
-        showToast('Transaction save failed', 'error')
+        showToast(t('tx.toastSaveFailed'), 'error')
         submitBtn.disabled = false
-        submitBtn.textContent = 'Save Transaction'
+        submitBtn.textContent = t('tx.save')
         return
       }
 
       newForm.reset()
       newModal.hidden = true
       submitBtn.disabled = false
-      submitBtn.textContent = 'Save Transaction'
-      showToast('Transaction saved')
+      submitBtn.textContent = t('tx.save')
+      showToast(t('tx.toastSaved'))
       loadTransactions()
     } catch (error) {
-      newError.textContent = 'Network error. Please try again.'
+      newError.textContent = t('tx.errorNetwork')
       newError.hidden = false
-      showToast('Transaction save failed', 'error')
+      showToast(t('tx.toastSaveFailed'), 'error')
       submitBtn.disabled = false
-      submitBtn.textContent = 'Save Transaction'
+      submitBtn.textContent = t('tx.save')
     }
   })
 
   // ===== APPROVE =====
   async function approveTransaction(id) {
-    if (!confirm('Approve this transaction?')) return
+    if (!confirm(t('tx.approveConfirm'))) return
 
     try {
       const response = await fetchWithAuth(`${API_URL}/transactions/${id}/approve`, {
         method: 'PUT',
       })
       if (!response.ok) throw new Error('Approval failed')
-      showToast('Transaction approved')
+      showToast(t('tx.toastApproved'))
       loadTransactions()
     } catch (error) {
       console.error('Failed to approve', error)
-      showToast('Transaction approval failed', 'error')
+      showToast(t('tx.toastApprovalFailed'), 'error')
     }
   }
 
@@ -329,15 +342,15 @@ if (token) {
     const reason = document.getElementById('rejectReason').value.trim()
 
     if (!reason) {
-      rejectError.textContent = 'You must explain why this transaction is being rejected.'
+      rejectError.textContent = t('tx.rejectRequired')
       rejectError.hidden = false
-      showToast('Please explain why this is rejected', 'error')
+      showToast(t('tx.rejectRequired'), 'error')
       return
     }
 
     const submitBtn = document.getElementById('submitReject')
     submitBtn.disabled = true
-    submitBtn.textContent = 'Rejecting...'
+    submitBtn.textContent = t('tx.rejecting')
 
     try {
       const response = await fetchWithAuth(
@@ -351,27 +364,32 @@ if (token) {
 
       if (!response.ok) {
         const data = await response.json()
-        rejectError.textContent = data.error || 'Failed to reject'
+        rejectError.textContent = data.error || t('tx.errorSaveFailed')
         rejectError.hidden = false
-        showToast('Transaction rejection failed', 'error')
+        showToast(t('tx.toastRejectFailed'), 'error')
         submitBtn.disabled = false
-        submitBtn.textContent = 'Confirm Rejection'
+        submitBtn.textContent = t('tx.confirmReject')
         return
       }
 
       rejectModal.hidden = true
       submitBtn.disabled = false
-      submitBtn.textContent = 'Confirm Rejection'
+      submitBtn.textContent = t('tx.confirmReject')
       pendingRejectId = null
-      showToast('Transaction rejected', 'warning')
+      showToast(t('tx.toastRejected'), 'warning')
       loadTransactions()
     } catch (error) {
-      rejectError.textContent = 'Network error. Please try again.'
+      rejectError.textContent = t('tx.errorNetwork')
       rejectError.hidden = false
-      showToast('Transaction rejection failed', 'error')
+      showToast(t('tx.toastRejectFailed'), 'error')
       submitBtn.disabled = false
-      submitBtn.textContent = 'Confirm Rejection'
+      submitBtn.textContent = t('tx.confirmReject')
     }
+  })
+
+  // ===== LANGUAGE CHANGE =====
+  window.addEventListener('languagechange', () => {
+    renderTransactions()
   })
 
   // ===== START =====

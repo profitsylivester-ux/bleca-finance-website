@@ -53,28 +53,28 @@
 
     <div class="page-header">
       <div>
-        <h1 class="portal-page-title">Transactions</h1>
-        <p class="portal-page-subtitle">All financial activity of the department.</p>
+        <h1 class="portal-page-title" data-i18n="tx.pageTitle">Transactions</h1>
+        <p class="portal-page-subtitle" data-i18n="tx.pageSubtitle">All financial activity of the department.</p>
       </div>
 
       <div class="header-actions">
-        <button type="button" id="exportTransactions" class="btn-new btn-export">Export CSV</button>
-        <button type="button" id="openNewTransaction" class="btn-new">
+        <button type="button" id="exportTransactions" class="btn-new btn-export" data-i18n="tx.exportCsv">Export CSV</button>
+        <button type="button" id="openNewTransaction" class="btn-new" data-i18n="tx.newTransaction">
           + New Transaction
         </button>
       </div>
     </div>
 
     <div class="transaction-search">
-      <label class="visually-hidden" for="transactionSearch">Search transactions</label>
-      <input type="search" id="transactionSearch" placeholder="Search by description, category, or project...">
+      <label class="visually-hidden" for="transactionSearch" data-i18n="tx.searchPlaceholder">Search transactions</label>
+      <input type="search" id="transactionSearch" placeholder="Search by description, category, or project..." data-i18n-placeholder="tx.searchPlaceholder">
     </div>
 
     <div class="filter-tabs">
-      <button type="button" class="filter-tab active" data-filter="all">All</button>
-      <button type="button" class="filter-tab" data-filter="pending">Pending</button>
-      <button type="button" class="filter-tab" data-filter="approved">Approved</button>
-      <button type="button" class="filter-tab" data-filter="rejected">Rejected</button>
+      <button type="button" class="filter-tab active" data-filter="all" data-i18n="tx.filterAll">All</button>
+      <button type="button" class="filter-tab" data-filter="pending" data-i18n="tx.filterPending">Pending</button>
+      <button type="button" class="filter-tab" data-filter="approved" data-i18n="tx.filterApproved">Approved</button>
+      <button type="button" class="filter-tab" data-filter="rejected" data-i18n="tx.filterRejected">Rejected</button>
     </div>
 
     <section class="portal-section">
@@ -89,79 +89,79 @@
   <div id="newTransactionModal" class="modal-overlay" hidden>
     <div class="modal">
       <div class="modal-header">
-        <h2>New Transaction</h2>
+        <h2 data-i18n="tx.newTitle">New Transaction</h2>
         <button type="button" class="modal-close" id="closeNewModal" aria-label="Close">✕</button>
       </div>
 
       <form id="newTransactionForm" class="modal-body">
         <div class="form-group">
-          <label for="txDate">Date</label>
+          <label for="txDate" data-i18n="tx.labelDate">Date</label>
           <input type="date" id="txDate" required>
         </div>
 
         <div class="form-group">
-          <label for="txDescription">Description</label>
-          <input type="text" id="txDescription" placeholder="e.g. Bootcamp ticket sales" required>
+          <label for="txDescription" data-i18n="tx.labelDescription">Description</label>
+          <input type="text" id="txDescription" placeholder="e.g. Bootcamp ticket sales" data-i18n-placeholder="tx.descriptionPlaceholder" required>
         </div>
 
         <div class="form-group">
-          <label for="txAmount">Amount</label>
+          <label for="txAmount" data-i18n="tx.labelAmount">Amount</label>
           <input type="number" id="txAmount" min="1" step="1" required>
         </div>
 
         <div class="form-group">
-          <label for="txCurrency">Currency</label>
+          <label for="txCurrency" data-i18n="tx.labelCurrency">Currency</label>
           <select id="txCurrency" required>
-            <option value="TZS" selected>TZS — Tanzanian Shilling</option>
-            <option value="USD">USD — US Dollar</option>
-            <option value="KES">KES — Kenyan Shilling</option>
-            <option value="EUR">EUR — Euro</option>
-            <option value="GBP">GBP — British Pound</option>
+            <option value="TZS" selected data-i18n="tx.currencyTZS">TZS — Tanzanian Shilling</option>
+            <option value="USD" data-i18n="tx.currencyUSD">USD — US Dollar</option>
+            <option value="KES" data-i18n="tx.currencyKES">KES — Kenyan Shilling</option>
+            <option value="EUR" data-i18n="tx.currencyEUR">EUR — Euro</option>
+            <option value="GBP" data-i18n="tx.currencyGBP">GBP — British Pound</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="txType">Type</label>
+          <label for="txType" data-i18n="tx.labelType">Type</label>
           <select id="txType" required>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
+            <option value="income" data-i18n="tx.typeIncome">Income</option>
+            <option value="expense" data-i18n="tx.typeExpense">Expense</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="txCategory">Category</label>
+          <label for="txCategory" data-i18n="tx.labelCategory">Category</label>
           <select id="txCategory">
-            <option value="Training">Training</option>
-            <option value="Consulting">Consulting</option>
-            <option value="Software">Software</option>
-            <option value="Cloud">Cloud</option>
-            <option value="Transport">Transport</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Salaries">Salaries</option>
-            <option value="Hardware">Hardware</option>
-            <option value="Other" selected>Other</option>
+            <option value="Training" data-i18n="tx.categoryTraining">Training</option>
+            <option value="Consulting" data-i18n="tx.categoryConsulting">Consulting</option>
+            <option value="Software" data-i18n="tx.categorySoftware">Software</option>
+            <option value="Cloud" data-i18n="tx.categoryCloud">Cloud</option>
+            <option value="Transport" data-i18n="tx.categoryTransport">Transport</option>
+            <option value="Marketing" data-i18n="tx.categoryMarketing">Marketing</option>
+            <option value="Salaries" data-i18n="tx.categorySalaries">Salaries</option>
+            <option value="Hardware" data-i18n="tx.categoryHardware">Hardware</option>
+            <option value="Other" selected data-i18n="tx.categoryOther">Other</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="txProject">Project</label>
-          <input type="text" id="txProject" placeholder="e.g. Iventika, Uzanite, General" value="General">
+          <label for="txProject" data-i18n="tx.labelProject">Project</label>
+          <input type="text" id="txProject" placeholder="e.g. Iventika, Uzanite, General" value="General" data-i18n-placeholder="tx.projectPlaceholder">
         </div>
 
         <div class="form-group">
-          <label for="txPaymentMethod">Payment Method</label>
+          <label for="txPaymentMethod" data-i18n="tx.labelPaymentMethod">Payment Method</label>
           <select id="txPaymentMethod">
-            <option value="Cash" selected>Cash</option>
-            <option value="Bank">Bank</option>
-            <option value="Mobile Money">Mobile Money</option>
+            <option value="Cash" selected data-i18n="tx.methodCash">Cash</option>
+            <option value="Bank" data-i18n="tx.methodBank">Bank</option>
+            <option value="Mobile Money" data-i18n="tx.methodMobileMoney">Mobile Money</option>
           </select>
         </div>
 
         <p id="newTxError" class="portal-error" hidden></p>
 
         <div class="modal-actions">
-          <button type="button" class="btn-cancel" id="cancelNewModal">Cancel</button>
-          <button type="submit" class="btn-primary" id="submitNewTx">Save Transaction</button>
+          <button type="button" class="btn-cancel" id="cancelNewModal" data-i18n="tx.cancel">Cancel</button>
+          <button type="submit" class="btn-primary" id="submitNewTx" data-i18n="tx.save">Save Transaction</button>
         </div>
       </form>
     </div>
@@ -171,21 +171,22 @@
   <div id="rejectModal" class="modal-overlay" hidden>
     <div class="modal">
       <div class="modal-header">
-        <h2>Reject Transaction</h2>
+        <h2 data-i18n="tx.rejectTitle">Reject Transaction</h2>
         <button type="button" class="modal-close" id="closeRejectModal" aria-label="Close">✕</button>
       </div>
 
       <form id="rejectForm" class="modal-body">
-        <p class="modal-hint">
+        <p class="modal-hint" data-i18n="tx.rejectHint">
           Please explain why this transaction is being rejected. This will be visible to the person who submitted it.
         </p>
 
         <div class="form-group">
-          <label for="rejectReason">Reason for rejection</label>
+          <label for="rejectReason" data-i18n="tx.rejectLabel">Reason for rejection</label>
           <textarea
             id="rejectReason"
             rows="4"
             placeholder="e.g. Missing receipt, wrong category, duplicate entry"
+            data-i18n-placeholder="tx.rejectPlaceholder"
             required
           ></textarea>
         </div>
@@ -193,8 +194,8 @@
         <p id="rejectError" class="portal-error" hidden></p>
 
         <div class="modal-actions">
-          <button type="button" class="btn-cancel" id="cancelRejectModal">Cancel</button>
-          <button type="submit" class="btn-danger" id="submitReject">Confirm Rejection</button>
+          <button type="button" class="btn-cancel" id="cancelRejectModal" data-i18n="tx.cancel">Cancel</button>
+          <button type="submit" class="btn-danger" id="submitReject" data-i18n="tx.confirmReject">Confirm Rejection</button>
         </div>
       </form>
     </div>
