@@ -170,3 +170,17 @@ themeToggle?.addEventListener('click', () => {
   localStorage.setItem('portal_theme', next)
   applyTheme(next)
 })
+
+export function initI18n() {
+  document.documentElement.setAttribute('lang', getLanguage())
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.getAttribute('data-i18n')
+    el.textContent = t(key)
+  })
+  window.addEventListener('languagechange', () => {
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n')
+      el.textContent = t(key)
+    })
+  })
+}

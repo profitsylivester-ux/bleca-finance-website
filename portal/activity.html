@@ -20,28 +20,28 @@
     <div class="portal-header-right">
       <span id="userGreeting" class="portal-user-greeting"></span>
       <button type="button" id="themeToggle" class="portal-theme-toggle" aria-label="Enable dark mode"></button>
-      <button type="button" id="logoutBtn" class="portal-logout">Logout</button>
+      <button type="button" id="logoutBtn" class="portal-logout" data-i18n="nav.logout">Logout</button>
     </div>
   </header>
 
   <nav class="portal-nav" aria-label="Portal navigation">
-    <a href="dashboard.html">
+    <a href="dashboard.html" data-i18n="nav.dashboard">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 9h8V3h-8z"/></svg>
       Dashboard
     </a>
-    <a href="transactions.html">
+    <a href="transactions.html" data-i18n="nav.transactions">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       Transactions
     </a>
-    <a href="documents.html">
+    <a href="documents.html" data-i18n="nav.documents">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       Documents
     </a>
-    <a href="activity.html" class="ceo-only active" data-ceo-only hidden>
+    <a href="activity.html" class="ceo-only active" data-ceo-only hidden data-i18n="nav.activity">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       Activity
     </a>
-    <a href="profile.html">
+    <a href="profile.html" data-i18n="nav.profile">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Profile
     </a>
@@ -62,7 +62,8 @@
     </section>
   </main>
 
+  <script type="module" src="../js/i18n.js"></script>
   <script type="module" src="../js/portal.js"></script>
-<script type="module" src="../js/activity.js"></script>
+  <script type="module" src="../js/activity.js"></script>
 </body>
 </html>
