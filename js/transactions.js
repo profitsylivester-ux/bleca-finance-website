@@ -1,4 +1,5 @@
 import { requireLogin, getUser, clearSession, fetchWithAuth, showToast } from './portal.js'
+import { formatMoney } from './currency.js'
 const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 
 const token = requireLogin()
@@ -25,12 +26,6 @@ if (token) {
   let pendingRejectId = null
 
   // ===== HELPERS =====
-  const formatTZS = (value) => {
-    return new Intl.NumberFormat('en-TZ', {
-      maximumFractionDigits: 0,
-    }).format(value) + ' TZS'
-  }
-
   const escapeHtml = (str) => {
     return String(str || '')
       .replace(/&/g, '&amp;')
@@ -120,7 +115,7 @@ if (token) {
               </p>
             </div>
             <div class="portal-row-amount ${tx.type}" style="text-align:right;">
-              ${sign} ${formatTZS(tx.amount)}
+              ${sign} ${formatMoney(tx.amount, tx.currency)}
             </div>
           </div>
           ${rejectionHtml}
@@ -174,7 +169,7 @@ if (token) {
     }
 
     const headers = [
-      'Date', 'Description', 'Type', 'Category', 'Project', 'Amount (TZS)',
+      'Date', 'Description', 'Type', 'Category', 'Project', 'Amount', 'Currency',
       'Status', 'Created By', 'Approved By', 'Rejection Reason',
     ]
     const rows = [headers.join(',')]
@@ -187,6 +182,7 @@ if (token) {
         csvEscape(tx.category),
         csvEscape(tx.project),
         csvEscape(tx.amount),
+        csvEscape(tx.currency || 'TZS'),
         csvEscape(tx.status),
         csvEscape(tx.createdBy?.name || ''),
         csvEscape(tx.approvedBy?.name || ''),
