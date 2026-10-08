@@ -1,6 +1,19 @@
 // Backend URL — BLECA Finance Portal backend on Render
 const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 
+import { t, getLanguage } from './i18n.js'
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.getAttribute('data-i18n')
+    el.textContent = t(key)
+  })
+}
+
+document.documentElement.setAttribute('lang', getLanguage())
+applyTranslations()
+window.addEventListener('languagechange', applyTranslations)
+
 // ===== TOKEN HELPERS =====
 
 export function getToken() {
@@ -63,7 +76,7 @@ if (loginForm) {
     errorBox.hidden = true
     errorBox.textContent = ''
     loginButton.disabled = true
-    loginButton.textContent = 'Signing in...'
+    loginButton.textContent = t('login.signingIn')
 
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -81,7 +94,7 @@ if (loginForm) {
         errorBox.textContent = data.error || 'Login failed'
         errorBox.hidden = false
         loginButton.disabled = false
-        loginButton.textContent = 'Sign in'
+        loginButton.textContent = t('login.submit')
         return
       }
 
@@ -91,7 +104,7 @@ if (loginForm) {
       errorBox.textContent = 'Cannot reach the server. Please try again.'
       errorBox.hidden = false
       loginButton.disabled = false
-      loginButton.textContent = 'Sign in'
+      loginButton.textContent = t('login.submit')
     }
   })
 }

@@ -20,12 +20,12 @@
 				<img src="../images/logo.png" alt="BLECA SmartLabs">
 			</a>
 
-			<p class="portal-eyebrow">Finance &amp; Accounting</p>
-			<h1 id="portal-title">Staff Login</h1>
-			<p class="portal-description">BLECA SmartLabs staff access only</p>
+			<p class="portal-eyebrow" data-i18n="login.eyebrow">Finance & Accounting</p>
+			<h1 id="portal-title" data-i18n="login.title">Staff Login</h1>
+			<p class="portal-description" data-i18n="login.description">BLECA SmartLabs staff access only</p>
 
 			<form class="portal-form" id="loginForm">
-				<label for="staff-email">Work email</label>
+				<label for="staff-email" data-i18n="login.email">Work email</label>
 				<input
 					type="email"
 					id="staff-email"
@@ -34,7 +34,7 @@
 					required
 				>
 
-				<label for="staff-password">Password</label>
+				<label for="staff-password" data-i18n="login.password">Password</label>
 				<div class="password-field">
 					<input
 						type="password"
@@ -58,13 +58,14 @@
 
 				<p class="portal-error" id="loginError" role="alert" hidden></p>
 
-				<button type="submit" id="loginButton">Sign in</button>
+				<button type="submit" id="loginButton" data-i18n="login.submit">Sign in</button>
 			</form>
 
 			
 		</section>
 	</main>
 
+	<script type="module" src="../js/i18n.js"></script>
 	<script type="module" src="../js/portal.js"></script>
 </body>
 </html>
