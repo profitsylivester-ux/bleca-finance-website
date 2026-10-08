@@ -1,4 +1,5 @@
 import { showToast } from './portal.js'
+import { formatMoney } from './currency.js'
 
 const { jsPDF } = window.jspdf
 
@@ -94,12 +95,6 @@ function backToTypes() {
 }
 
 // ===== HELPERS =====
-function formatTZS(value) {
-  return new Intl.NumberFormat('en-TZ', {
-    maximumFractionDigits: 0,
-  }).format(value) + ' TZS'
-}
-
 function formatDateLong(iso) {
   return new Date(iso).toLocaleDateString('en-GB', {
     day: '2-digit',
@@ -140,7 +135,7 @@ function receiptFormHtml() {
       </div>
 
       <div class="form-group">
-        <label for="rcpAmount">Amount (TZS)</label>
+        <label for="rcpAmount">Amount</label>
         <input type="number" id="rcpAmount" min="1" step="1" required>
       </div>
 
@@ -248,7 +243,7 @@ async function generateReceiptPdf(data) {
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(20)
   doc.setTextColor('#0F2A44')
-  doc.text(formatTZS(data.amount), margin + 20, y + 46)
+  doc.text(formatMoney(data.amount, 'TZS'), margin + 20, y + 46)
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(11)
@@ -455,7 +450,7 @@ async function generateInvoicePdf(data) {
   const totalAmount = data.items.reduce((sum, item) => sum + item.qty * item.rate, 0)
 
   doc.setFont('helvetica', 'bold')
-  doc.text(`Balance Due: ${formatTZS(totalAmount)}`, pageWidth - margin, y + 48, { align: 'right' })
+  doc.text(`Balance Due: ${formatMoney(totalAmount, 'TZS')}`, pageWidth - margin, y + 48, { align: 'right' })
 
   y += 75
   doc.setDrawColor('#D4A853')
@@ -521,8 +516,8 @@ async function generateInvoicePdf(data) {
     doc.setFontSize(10)
     doc.text(item.desc.substring(0, 45), margin + 10, y + 15)
     doc.text(String(item.qty), pageWidth - margin - 200, y + 15, { align: 'right' })
-    doc.text(formatTZS(item.rate), pageWidth - margin - 100, y + 15, { align: 'right' })
-    doc.text(formatTZS(item.qty * item.rate), pageWidth - margin - 10, y + 15, { align: 'right' })
+    doc.text(formatMoney(item.rate, 'TZS'), pageWidth - margin - 100, y + 15, { align: 'right' })
+    doc.text(formatMoney(item.qty * item.rate, 'TZS'), pageWidth - margin - 10, y + 15, { align: 'right' })
 
     y += 22
   })
@@ -537,21 +532,21 @@ async function generateInvoicePdf(data) {
   doc.setFontSize(11)
   doc.setTextColor('#6b7280')
   doc.text('Sub Total', pageWidth - margin - 250, y)
-  doc.text(formatTZS(totalAmount), pageWidth - margin - 10, y, { align: 'right' })
+  doc.text(formatMoney(totalAmount, 'TZS'), pageWidth - margin - 10, y, { align: 'right' })
 
   y += 20
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(12)
   doc.setTextColor('#0F2A44')
   doc.text('Total', pageWidth - margin - 250, y)
-  doc.text(formatTZS(totalAmount), pageWidth - margin - 10, y, { align: 'right' })
+  doc.text(formatMoney(totalAmount, 'TZS'), pageWidth - margin - 10, y, { align: 'right' })
 
   y += 20
   doc.setFillColor('#F8F6F1')
   doc.rect(pageWidth - margin - 250, y - 14, 250, 24, 'F')
   doc.setFontSize(12)
   doc.text('Balance Due', pageWidth - margin - 250 + 10, y + 2)
-  doc.text(formatTZS(totalAmount), pageWidth - margin - 10, y + 2, { align: 'right' })
+  doc.text(formatMoney(totalAmount, 'TZS'), pageWidth - margin - 10, y + 2, { align: 'right' })
 
   y += 50
   doc.setFont('helvetica', 'bold')
@@ -1192,7 +1187,7 @@ async function generateProposalPdf(data) {
       }
       doc.setFontSize(11)
       doc.text(row.label, margin + 10, y + 15)
-      doc.text(formatTZS(row.amount), pageWidth - margin - 10, y + 15, { align: 'right' })
+      doc.text(formatMoney(row.amount, 'TZS'), pageWidth - margin - 10, y + 15, { align: 'right' })
       total += row.amount
       y += 22
     })
@@ -1204,7 +1199,7 @@ async function generateProposalPdf(data) {
     doc.setFontSize(12)
     doc.setTextColor('#0F2A44')
     doc.text('Total', margin + 10, y + 18)
-    doc.text(formatTZS(total), pageWidth - margin - 10, y + 18, { align: 'right' })
+    doc.text(formatMoney(total, 'TZS'), pageWidth - margin - 10, y + 18, { align: 'right' })
     y += 36
   }
 
