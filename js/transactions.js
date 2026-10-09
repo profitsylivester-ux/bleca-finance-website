@@ -1,6 +1,7 @@
 import { requireLogin, getUser, clearSession, fetchWithAuth, showToast } from './portal.js'
 import { formatMoney } from './currency.js'
 import { t } from './i18n.js'
+import { buildTransactionPdf, transactionPdfFileName } from './transaction-pdf.js'
 const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 
 const token = requireLogin()
@@ -96,11 +97,21 @@ if (token) {
       const sign = tx.type === 'income' ? '+' : '−'
 
       let actionsHtml = ''
-      if (tx.status === 'pending' && isCEO) {
-        actionsHtml = `
-          <div class="tx-actions">
+      if (isCEO) {
+        const approvalHtml =
+          tx.status === 'pending'
+            ? `
             <button class="btn-approve" data-action="approve" data-id="${tx._id}">${t('tx.approve')}</button>
             <button class="btn-reject" data-action="reject" data-id="${tx._id}">${t('tx.reject')}</button>
+          `
+            : ''
+
+        actionsHtml = `
+          <div class="tx-actions">
+            ${approvalHtml}
+            <button class="btn-tx-pdf" data-action="download-pdf" data-id="${tx._id}">${t('tx.downloadPdf')}</button>
+            <button class="btn-share" data-action="share" data-id="${tx._id}">${t('tx.share')}</button>
+            <button class="btn-delete" data-action="delete" data-id="${tx._id}">${t('tx.delete')}</button>
           </div>
         `
       }
@@ -145,6 +156,18 @@ if (token) {
 
     container.querySelectorAll('[data-action="reject"]').forEach((btn) => {
       btn.addEventListener('click', () => openRejectModal(btn.dataset.id))
+    })
+
+    container.querySelectorAll('[data-action="download-pdf"]').forEach((btn) => {
+      btn.addEventListener('click', () => downloadTransactionPdf(btn.dataset.id))
+    })
+
+    container.querySelectorAll('[data-action="share"]').forEach((btn) => {
+      btn.addEventListener('click', () => shareTransaction(btn.dataset.id))
+    })
+
+    container.querySelectorAll('[data-action="delete"]').forEach((btn) => {
+      btn.addEventListener('click', () => deleteTransaction(btn.dataset.id))
     })
   }
 
@@ -386,6 +409,125 @@ if (token) {
       submitBtn.textContent = t('tx.confirmReject')
     }
   })
+
+  // ===== DOWNLOAD PDF (also keeps a copy in Documents for future reviews) =====
+  async function downloadTransactionPdf(id) {
+    const tx = allTransactions.find((item) => item._id === id)
+    if (!tx) return
+
+    try {
+      const doc = await buildTransactionPdf(tx)
+      const fileName = transactionPdfFileName(tx)
+      const blob = doc.output('blob')
+
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = fileName
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+
+      showToast(t('tx.toastPdfDownloaded'))
+      await savePdfToDocuments(tx, blob, fileName)
+    } catch (error) {
+      console.error('Failed to generate transaction PDF', error)
+      showToast(t('tx.toastPdfFailed'), 'error')
+    }
+  }
+
+  async function savePdfToDocuments(tx, blob, fileName) {
+    try {
+      const file = new File([blob], fileName, { type: 'application/pdf' })
+
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('type', 'Payment Voucher')
+      formData.append('description', `Transaction voucher · ${tx.description}`)
+      formData.append('transactionId', tx._id)
+
+      const response = await fetchWithAuth(`${API_URL}/documents`, {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) throw new Error('Failed to save PDF copy')
+
+      showToast(t('tx.toastPdfSaved'))
+    } catch (error) {
+      console.error('Failed to save PDF to Documents', error)
+      showToast(t('tx.toastPdfSaveFailed'), 'warning')
+    }
+  }
+
+  // ===== SHARE =====
+  async function shareTransaction(id) {
+    const tx = allTransactions.find((item) => item._id === id)
+    if (!tx) return
+
+    const statusLabel =
+      'tx.status' + tx.status.charAt(0).toUpperCase() + tx.status.slice(1)
+
+    const summary = [
+      'BLECA SmartLabs — Transaction',
+      tx.description,
+      `${tx.type === 'income' ? '+' : '−'} ${formatMoney(tx.amount, tx.currency)}`,
+      `Date: ${formatDate(tx.date)}`,
+      `Category: ${tx.category} · Project: ${tx.project}`,
+      `Status: ${t(statusLabel)}`,
+    ].join('\n')
+
+    try {
+      const doc = await buildTransactionPdf(tx)
+      const file = new File([doc.output('blob')], transactionPdfFileName(tx), {
+        type: 'application/pdf',
+      })
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: `BLECA Transaction — ${tx.description}`,
+          text: summary,
+          files: [file],
+        })
+        showToast(t('tx.toastShared'))
+        return
+      }
+    } catch (error) {
+      if (error && error.name === 'AbortError') return
+      console.error('Share failed', error)
+    }
+
+    try {
+      await navigator.clipboard.writeText(summary)
+      showToast(t('tx.toastCopied'))
+    } catch (error) {
+      console.error('Clipboard write failed', error)
+      showToast(t('tx.toastShareFailed'), 'error')
+    }
+  }
+
+  // ===== DELETE (CEO only, enforced by the backend) =====
+  async function deleteTransaction(id) {
+    const tx = allTransactions.find((item) => item._id === id)
+    if (!tx) return
+
+    if (!confirm(t('tx.deleteConfirm'))) return
+
+    try {
+      const response = await fetchWithAuth(`${API_URL}/transactions/${id}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) throw new Error('Delete failed')
+
+      showToast(t('tx.toastDeleted'))
+      loadTransactions()
+    } catch (error) {
+      console.error('Failed to delete transaction', error)
+      showToast(t('tx.toastDeleteFailed'), 'error')
+    }
+  }
 
   // ===== LANGUAGE CHANGE =====
   window.addEventListener('languagechange', () => {

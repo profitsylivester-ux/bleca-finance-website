@@ -1,7 +1,9 @@
-import { showToast } from './portal.js'
+import { showToast, fetchWithAuth, getToken } from './portal.js'
 import { formatMoney } from './currency.js'
 
 const { jsPDF } = window.jspdf
+
+const API_URL = 'https://bleca-finance-portal-backend.onrender.com'
 
 // ===== GENERATE DOCUMENT MODAL =====
 
@@ -111,6 +113,46 @@ function loadImage(src) {
     img.onerror = reject
     img.src = src
   })
+}
+
+// Downloads the PDF to the device AND keeps a copy in the portal
+// (Documents page) so it can be reviewed later.
+async function downloadAndArchive(doc, fileName, archiveType, archiveDescription) {
+  const blob = doc.output('blob')
+
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = fileName
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+
+  showToast('Document generated')
+
+  if (!getToken()) return
+
+  try {
+    const file = new File([blob], fileName, { type: 'application/pdf' })
+
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('type', archiveType)
+    formData.append('description', archiveDescription)
+
+    const response = await fetchWithAuth(`${API_URL}/documents`, {
+      method: 'POST',
+      body: formData,
+    })
+
+    if (!response.ok) throw new Error('Failed to archive document')
+
+    showToast('Saved to Documents for future review')
+  } catch (error) {
+    console.error('Failed to archive document', error)
+    showToast('Downloaded, but could not save to Documents', 'warning')
+  }
 }
 
 // ===== RECEIPT =====
@@ -284,8 +326,12 @@ async function generateReceiptPdf(data) {
     { align: 'center' }
   )
 
-  doc.save(`Receipt-${data.number}.pdf`)
-  showToast('Document generated')
+  await downloadAndArchive(
+    doc,
+    `Receipt-${data.number}.pdf`,
+    'Receipt',
+    `Generated receipt ${data.number}${data.purpose ? ` · ${data.purpose}` : ''}`
+  )
 }
 
 // ===== INVOICE =====
@@ -601,8 +647,12 @@ async function generateInvoicePdf(data) {
     { align: 'center' }
   )
 
-  doc.save(`Invoice-${data.number}.pdf`)
-  showToast('Document generated')
+  await downloadAndArchive(
+    doc,
+    `Invoice-${data.number}.pdf`,
+    'Invoice',
+    `Generated invoice ${data.number}${data.clientName ? ` · ${data.clientName}` : ''}`
+  )
 }
 
 // ===== CERTIFICATE (Microsoft style) =====
@@ -867,8 +917,12 @@ async function generateCertificatePdf(data) {
     { align: 'center' }
   )
 
-  doc.save(`Certificate-${data.number}.pdf`)
-  showToast('Document generated')
+  await downloadAndArchive(
+    doc,
+    `Certificate-${data.number}.pdf`,
+    'Other',
+    `Generated certificate ${data.number}`
+  )
 }
 
 // ===== PROPOSAL =====
@@ -1254,6 +1308,10 @@ async function generateProposalPdf(data) {
     )
   }
 
-  doc.save(`Proposal-${data.number}.pdf`)
-  showToast('Document generated')
+  await downloadAndArchive(
+    doc,
+    `Proposal-${data.number}.pdf`,
+    'Other',
+    `Generated proposal ${data.number}`
+  )
 }
