@@ -13,6 +13,11 @@ function applyPublicTranslations() {
     if (key) el.setAttribute('title', t(key))
   })
 
+  document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+    const key = el.getAttribute('data-i18n-aria')
+    if (key) el.setAttribute('aria-label', t(key))
+  })
+
   const select = document.getElementById('publicLangToggle')
   if (select) select.value = getLanguage()
 }
